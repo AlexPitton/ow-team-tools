@@ -75,11 +75,11 @@ export default {
                 },
                 endpoints: {
                     login: {
-                        url: 'http://37.187.176.42/auth/local',
+                        url: `${process.env.API_URL}/auth/local`,
                         method: 'post',
                     },
                     user: {
-                        url: 'http://37.187.176.42/users/me',
+                        url: `${process.env.API_URL}/users/me`,
                         method: 'get',
                     },
                     logout: false
