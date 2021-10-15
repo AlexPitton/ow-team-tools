@@ -4,7 +4,8 @@ export const state = () => ({
     heroes: [],
     compositions: [],
     userCompositions: [],
-    maps: []
+    maps: [],
+    users: []
 })
 
 export const getters = {
@@ -31,6 +32,9 @@ export const mutations = {
     },
     setMaps(state, maps) {
         state.maps = maps
+    },
+    setUsers(state, users) {
+        state.users = users
     },
     deleteUserComposition(state, userComposition) {
         let index = state.userCompositions.findIndex( c => c.id === userComposition.id)
@@ -60,6 +64,10 @@ export const actions = {
     async getMaps ({commit}) {
         let {data} = await this.$axios.get(`/maps`)
         commit('setMaps', data)
+    },
+    async getUsers ({commit}) {
+        let {data} = await this.$axios.get(`/users`)
+        commit('setUsers', data)
     }
 }
 

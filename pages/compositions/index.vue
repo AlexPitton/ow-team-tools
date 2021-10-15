@@ -43,6 +43,16 @@
                         <option v-for="map in maps" :value="map.name" :key="map.id">{{map.name}}</option>
                     </select>
                 </div>
+
+                <div class="filter filter-map">
+                    <label for="filter-map">
+                        Author
+                    </label>
+                    <select id="filter-user" v-model="filters.user">
+                        <option value="">All</option>
+                        <option v-for="user in users" :value="user.username" :key="user.id">{{user.username}}</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -84,8 +94,11 @@
             maps() {
                 return this.$store.state.maps
             },
+            users() {
+                return this.$store.state.users
+            },
             filteredComposition() {
-                return this.filterByMap(this.filterByName(this.filterByStatus(this.$store.state.compositions)))
+                return this.filterByUser(this.filterByMap(this.filterByName(this.filterByStatus(this.$store.state.compositions))))
             }
         },
         data() {
@@ -93,16 +106,18 @@
                 filters: {
                     name: '',
                     status: '',
-                    map: ''
+                    map: '',
+                    user: ''
                 }
             }
         },
         created() {
             this.getAllCompositions()
             this.getMaps()
+            this.getUsers()
         },
         methods: {
-            ...mapActions(['getAllCompositions', 'getMaps', 'getHeroes']),
+            ...mapActions(['getAllCompositions', 'getMaps', 'getHeroes', 'getUsers']),
             filterByName(compositions) {
                 return compositions.filter(compo => compo.name.toLowerCase().includes(this.filters.name.toLocaleLowerCase()))
             },
@@ -111,6 +126,9 @@
             },
             filterByMap(compositions) {
                 return compositions.filter(compo => compo.map.name.toLowerCase().includes(this.filters.map.toLowerCase()))
+            },
+            filterByUser(compositions) {
+                return compositions.filter(compo => compo.author.username.toLowerCase().includes(this.filters.user.toLowerCase()))
             },
             compositionHeroes(heroes) {
                 let sortedArray = {tank: [], dps: [], support: []}
