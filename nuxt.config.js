@@ -1,5 +1,6 @@
 export default {
-    // Global page headers: https://go.nuxtjs.dev/config-head
+    loading: '~/components/common/LoadingScreen.vue',
+    // Global page headers
     head: {
         title: 'ow-team-tools',
         htmlAttrs: {
@@ -16,20 +17,20 @@ export default {
         ]
     },
 
-    // Global CSS: https://go.nuxtjs.dev/config-css
+    // Global CSS
     css: [
         {
             src: '~/assets/styles/styles.scss', lang: 'scss'
         }
     ],
 
-    // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+    // Plugins to run before rendering pages
     plugins: [],
 
-    // Auto import components: https://go.nuxtjs.dev/config-components
+    // Auto import components
     components: true,
 
-    // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+    // Modules for dev and build recommended
     buildModules: [
         '@nuxtjs/svg-sprite'
     ],
@@ -39,9 +40,8 @@ export default {
         output: '~/assets/sprite',
     },
 
-    // Modules: https://go.nuxtjs.dev/config-modules
+    // Modules
     modules: [
-        // https://go.nuxtjs.dev/axios
         '@nuxtjs/axios',
         '@nuxtjs/auth-next',
         '@nuxtjs/style-resources'
@@ -53,15 +53,13 @@ export default {
         ]
     },
 
-    // Axios module configuration: https://go.nuxtjs.dev/config-axios
     axios: {
         baseURL: process.env.API_URL
     },
 
-    // Build Configuration: https://go.nuxtjs.dev/config-build
+    // Build Configuration
     build: {},
 
-    //See https://auth.nuxtjs.org/schemes/local.html#options
     auth: {
         strategies: {
             local: {

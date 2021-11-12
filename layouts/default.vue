@@ -1,16 +1,21 @@
 <template>
     <div>
-        <Header v-if="$auth.loggedIn" />
-        <Nuxt />
+        <Menu v-if="$auth.loggedIn" />
+        <Nuxt :class="{'menu-extended' : menuExtended}"/>
     </div>
 </template>
 
 <script>
-    import Header from "@/components/common/Header.vue"
+    import Menu from "@/components/common/Menu.vue"
 
     export default {
         components: {
-            Header
+            Menu
+        },
+        data() {
+            return {
+                menuExtended: false
+            }
         }
     }
 </script>

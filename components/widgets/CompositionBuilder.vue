@@ -1,57 +1,9 @@
 <template>
     <div class="composition-builder" :class="{'show-error' : send}">
 
-        <div class="flex-wrapper">
-            <div class="composition-container">
-                <h1 class="main-title">
-                    Composition builder
-                </h1>
-
-                <Composition
-                    :heroes="heroesSelection"
-                    :valid="heroesSelection >= 6"
-                    v-on:heroRemoved="removeHero"
-                    v-on:flexRemoved="removeFlex"
-                    v-on:flexModeRequested="onFlexModeRequested"
-                    ref="composition"
-                />
-
-                <div class="map-selector">
-                    <p class="sub-title">
-                        Choose a map
-                    </p>
-
-                    <MapSelect :data="maps" v-on:mapSelected="onMapSelected" />
-                </div>
-
-            </div>
-
-            <div class="form-container">
-                <div class="form-container">
-                    <div class="field-container">
-                        <input type="text" name="title" id="title" v-model="form.name" :class="{hasvalue : form.name}" required>
-                        <label class="label" for="title">Name your composition</label>
-                    </div>
-
-                    <div class="editor-container">
-                        <p>Add more details</p>
-                        <p class="hint">
-                            A good composition is a composition that makes sense! So don't hesitate to explain here the strong points, the weak points, the victory conditions, the ultimate rotations...
-                        </p>
-                        <Editor v-on:onChange="onEditorChange" />
-                    </div>
-
-                    <ButtonAction
-                        :label="'Save composition'"
-                        :isDisabled="heroesSelection.length !== 6 || !form.name || !form.map"
-                        v-on:click="sendComposition"
-                    />
-
-                    <p class="message success" v-if="success">Your composition have been successfully saved !</p>
-                    <p class="message error" v-if="error">Oops something went wrong on API side, please contact your administrator.</p>
-                </div>
-            </div>
-        </div>
+        <h1 class="main-title">
+            Composition builder
+        </h1>
 
         <div class="heroes-list-container">
             <HeroesList
@@ -62,6 +14,48 @@
                 :flexMode="flexMode"
                 :flexModeRole="flexModeRole"
             />
+        </div>
+
+        <div class="composition-container">
+            <Composition
+                :heroes="heroesSelection"
+                :valid="heroesSelection >= 6"
+                v-on:heroRemoved="removeHero"
+                v-on:flexRemoved="removeFlex"
+                v-on:flexModeRequested="onFlexModeRequested"
+                ref="composition"
+            />
+        </div>
+
+        <div class="form-container">
+
+            <div class="map-selector">
+                <p class="sub-title">
+                    Choose a map
+                </p>
+
+                <MapSelect :data="maps" v-on:mapSelected="onMapSelected" />
+            </div>
+
+            <div class="field-container">
+                <input type="text" name="title" id="title" v-model="form.name" :class="{hasvalue : form.name}" required>
+                <label class="label" for="title">Name your composition</label>
+            </div>
+
+            <div class="editor-container">
+                <p>Add more details</p>
+                <p class="hint">
+                    A good composition is a composition that makes sense! So don't hesitate to explain here the strong points, the weak points, the victory conditions, the ultimate rotations...
+                </p>
+                <Editor v-on:onChange="onEditorChange" />
+            </div>
+
+            <button class="t-btn t-btn_primary" :class="{'disabled' : heroesSelection.length !== 6 || !form.name || !form.map}" @click="sendComposition">
+                Save composition
+            </button>
+
+            <p class="message success" v-if="success">Your composition have been successfully saved !</p>
+            <p class="message error" v-if="error">Oops something went wrong on API side, please contact your administrator.</p>
         </div>
 
     </div>
@@ -232,27 +226,13 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
     .composition-builder {
 
         .heroes-list-container {
-            position: fixed;
-            bottom: 40px;
-            left: 50px;
-            right: 50px;
-        }
-
-        .flex-wrapper {
-            display: flex;
-
-            .main-title {
-                margin-bottom: 35px;
-            }
-
-            & > div {
-                width: 50%;
-            }
+            margin-top: 30px;
+            margin-bottom: 50px;
         }
 
         .editor-container {

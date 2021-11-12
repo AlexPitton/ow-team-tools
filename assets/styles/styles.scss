@@ -1,4 +1,11 @@
 @import 'settings/settings';
+
 @import 'base/fonts';
 @import 'base/reset';
 @import 'base/default';
+
+@import "theme/buttons";
+@import "theme/text";
+@import "theme/colors";
+
+@import "utils/box";

@@ -30,7 +30,7 @@
 <style lang="scss" scoped>
     .hero {
         border-radius: 3px;
-        background-color: #dadada;
+        background-color: $c-white;
 
         overflow: hidden;
         cursor: pointer;

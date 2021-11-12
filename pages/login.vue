@@ -1,25 +1,46 @@
 <template>
-    <div class="login-page">
+    <div class="login-page u-flex">
 
-        <div class="form-container">
-            <p>
-                Please log in to access your team's tools.
-            </p>
-            <form method="post" @submit.prevent="login">
-                <div class="field-container">
-                    <input v-model="email" type="email" class="input" name="email" id="email" :class="{hasvalue : email}"/>
-                    <label class="label" for="email">Email</label>
-                </div>
-                <div class="field-container">
-                    <input v-model="password" type="password" class="input" name="password" id="password" :class="{hasvalue : password}"/>
-                    <label class="label" for="password">Password</label>
-                </div>
-                <div class="control">
-                    <button type="submit" class="button is-dark">
+        <div class="user-connect t-color-white font-mono u-flex u-align-items-center">
+            <div class="form-container">
+                <p class="font-title-bold form-title">
+                    Sign-in to access your <span class="t-txt-outline">team's tools</span>
+                </p>
+
+                <!--<p class="t-c_plighter">-->
+                    <!--OwTT is personnal project-->
+                <!--</p>-->
+
+                <form method="post" @submit.prevent="login">
+                    <div class="field-container">
+                        <input v-model="email" type="email" class="input" name="email" id="email" required :class="{'has-value' : email}"/>
+                        <label class="label" for="email">Email</label>
+                        <span class="icon-wrapper">
+                            <svg-icon name="paperplane" />
+                        </span>
+                    </div>
+                    <div class="field-container">
+                        <input v-model="password" type="password" class="input" name="password" id="password" required :class="{'has-value' : password}"/>
+                        <label class="label" for="password">Password</label>
+                        <span class="icon-wrapper">
+                            <svg-icon name="lock" />
+                        </span>
+                    </div>
+                    <button type="submit" class="t-btn t-btn_full t-c_white t-bck_tonic">
                         Log in
                     </button>
-                </div>
-            </form>
+                </form>
+
+                <!--<div class="">-->
+                    <!--<button class="t-btn t-btn_full t-c_plighter t-bck_white">-->
+                        <!--Create account-->
+                    <!--</button>-->
+                <!--</div>-->
+            </div>
+        </div>
+
+        <div class="art-splashscreen">
+            <img src="https://images.eurogamer.net/2015/articles//a/1/8/4/3/7/0/3/ana_amari_by_re_dye_daa7lhd.jpg.jpg/EG11/resize/690x-1/quality/75/format/jpg" alt="">
         </div>
 
     </div>
@@ -27,8 +48,6 @@
 
 
 <script>
-    import axios from 'axios'
-
     export default {
         data() {
             return {
@@ -59,114 +78,113 @@
 <style lang="scss" scoped>
 
     .login-page {
-        background-color: $color-concrete;
         width: 100%;
         height: 100vh;
-        text-align: center;
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        .user-connect {
+            width: 35%;
+            padding: 0 50px;
+            background-color: $c-primary-dark;
 
+            .form-title {
+                font-size: 45px;
+                line-height: 55px;
+                margin-bottom: 25px;
+                letter-spacing: 0.04em;
+            }
 
-        p {
-            font-weight: 800;
-            font-size: 35px;
-            line-height: 45px;
-            margin-bottom: 50px;
+            p {
+                font-size: 14px;
+                line-height: 24px;
+                margin-bottom: 35px;
+            }
         }
 
-        .form-container {
+        .art-splashscreen {
             position: relative;
-            background-color: $color-concrete;
-            color: $color-rich-black;
-            padding: 50px;
-            max-width: 450px;
-            box-shadow: 0 0 8px #8c8c8c;
-            overflow: hidden;
+            width: 65%;
 
-            &::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                display: block;
+            img {
                 width: 100%;
-                height: 4px;
-                background-color: $color-blue-crayola;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        form {
+
+            .field-container {
+                position: relative;
+                margin-bottom: 13px;
+                overflow: hidden;
+            }
+
+            .label {
+                position: absolute;
+                left: 20px;
+                top: 50%;
+                font-size: 16px;
+                transform: translateY(-50%);
+                transition: 300ms $magikMotion;
+            }
+
+            .icon-wrapper {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                width: 22px;
+                height: 100%;
+                transform: translateY(-50%) translateX(-75px);
+                transition: 300ms $magikMotion;
+
+                svg {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                svg, path {
+                    fill: $c-primary-lighter;
+                }
+            }
+
+            button {
+                margin-top: 50px;
+            }
+
+            .input {
+                width: 100%;
+                padding: 0 20px 0 50px;
+                background-color: $c-primary-light;
+                color: $c-primary-lighter;
+                border-radius: 5px;
+                font-family: $font-base;
+                font-size: 16px;
+                line-height: 50px;
+
+                &:focus {
+                    color: $c-white;
+
+                    ~ .icon-wrapper {
+                        svg, path {
+                            fill: $c-white;
+                        }
+                    }
+                }
+
+                &:focus + .label, &.has-value + .label {
+                    transform: translateY(-50%) translateX(75px);
+                    opacity: 0;
+                }
+
+                &:focus ~ .icon-wrapper, &.has-value ~ .icon-wrapper {
+                    transform: translateY(-50%) translateX(0);
+                }
+
+                &[type="password"] ~ .icon-wrapper {
+                    width: 18px;
+                }
             }
         }
     }
-
-    .field-container {
-        position: relative;
-        margin-bottom: 25px;
-
-        &::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -2px;
-            width: 100%;
-            height: 1px;
-            background-color: $color-rich-black;
-            display: block;
-        }
-    }
-
-    input, select {
-        font-family: "Courier", monospace;
-        font-weight: 100;
-        appearance: none;
-        background: none;
-        border: none;
-        width: 100%;
-        height: 25px;
-        font-size: 14px;
-        line-height: 25px;
-        outline: none;
-        color: $color-rich-black;
-    }
-
-    input:focus + label {
-        top: -18px;
-        font-size: 10px;
-    }
-
-    input.hasvalue + label {
-        top: -18px;
-        font-size: 10px;
-    }
-
-    .label {
-        position: absolute;
-        left: 2px;
-        top: 0;
-        font-size: 14px;
-        line-height: 25px;
-        font-family: "Courier", monospace;
-        transition: all 250ms $magikMotion;
-    }
-
-    button {
-        display: block;
-        width: 100%;
-        background-color: $color-blue-crayola;
-        margin-top: 50px;
-
-        font-size: 18px;
-        font-weight: 600;
-        line-height: 45px;
-        color: $color-concrete;
-
-        border: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        border-radius: 6px;
-    }
-
-
 
 </style>

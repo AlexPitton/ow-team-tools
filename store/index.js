@@ -22,7 +22,7 @@ export const getters = {
 
 export const mutations = {
     setHeroes(state, heroes) {
-        state.heroes = heroes
+        state.heroes = heroes.sort((a, b) => a.name.localeCompare(b.name))
     },
     setAllCompositions(state, compositions) {
         state.compositions = compositions

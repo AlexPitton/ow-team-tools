@@ -1,0 +1,58 @@
+// Font familly
+.font-title {
+    font-family: $font-title;
+    font-weight: normal;
+}
+.font-title-bold {
+    font-family: $font-title;
+    font-weight: bold;
+}
+.font-mono {
+    font-family: $font-mono;
+}
+.font-lineal {
+    font-family: $font-base;
+}
+
+.fw-medium {font-weight: 500;}
+.fw-semibold {font-weight: 600;}
+.fw-bold {font-weight: 700;}
+
+//Hierarchy styles
+h1 {
+    font-size: 40px;
+    line-height: 50px;
+}
+
+h2 {
+    font-size: 16px;
+    line-height: 26px;
+    text-transform: uppercase;
+}
+//Colors
+.t-color-white {
+    color: $color-white;
+    -webkit-text-stroke-color: $color-white;
+}
+.t-color-black {
+    color: $color-black;
+    -webkit-text-stroke-color: $color-black;
+}
+// Transformation
+.t-txt-uppercase {
+    text-transform: uppercase;
+}
+.t-txt-outline {
+    -webkit-text-stroke-width: 1px;
+    color: transparent;
+}
+
+.t-txt-linethrough {
+    text-decoration: line-through;
+}
+
+// Align
+.t-align-r {text-align: right;}
+.t-align-l {text-align: left;}
+.t-align-c {text-align: center;}
+.t-align-j {text-align: justify;}

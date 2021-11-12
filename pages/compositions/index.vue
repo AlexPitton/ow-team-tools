@@ -58,7 +58,7 @@
 
         <div class="compositions-list">
             <div class="composition" v-for="compo in filteredComposition" :key="compo.id">
-                <div class="composition-header u-flex u-flex-sb">
+                <div class="composition-header u-flex u-flex-justify-between">
                     <div>
                         <p class="composition-title">{{compo.name}}</p>
                         <p class="composition-author" v-if="compo.author.username">Created by <span>{{compo.author.username}}</span></p>

@@ -1,0 +1,59 @@
+.t-btn {
+    display: inline-block;
+    vertical-align: top;
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    font-family: $font-base;
+    color: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-backface-visibility: hidden;
+
+    &:hover {
+        text-decoration: none;
+    }
+
+    &.disabled {
+        opacity: 0.3;
+
+        &:hover {
+            cursor: not-allowed;
+        }
+    }
+}
+
+.t-btn_full {
+    position: relative;
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    line-height: 50px;
+    letter-spacing: 0.04em;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    transition: all 150ms $authenticMotion;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+.t-btn_primary {
+    font-size: 14px;
+    border-radius: 3px;
+    line-height: 35px;
+    padding: 0 20px;
+
+    background-color: $c-tonic;
+    color: $color-white;
+    font-weight: 800;
+}
+
+

@@ -1,5 +1,9 @@
 $font-path: '/fonts/';
 
+$font-title: 'Monumental', sans-serif;
+$font-mono: 'Archia', monospace;
+$font-base: 'Inter', sans-serif;
+
 $screen-breakpoints : (
     xxs    : 320px, // rarely used, most styles applicable here will not use a media query (mobile first)
     xs     : 375px,
@@ -14,9 +18,8 @@ $screen-xl:1400px;
 $screen-l:1280px;
 $screen-m:1024px;
 $screen-s:768px;
-$screen-xs:640px;
+$screen-xs:375px;
 $screen-xxs:320px;
-
 
 // COLORS
 
@@ -30,6 +33,19 @@ $color-blue-crayola: #256EFF;
 $color-pattens-blue: #D6E4FF;
 $color-medium-purple: #A86FE8;
 $color-cinnabar: #E74626;
+
+// Palette dark mode V1
+
+$c-black: #000000;
+$c-white: #FFFFFF;
+$c-primary-dark: #161c2b;
+$c-primary-light: #26324a;
+$c-primary-lighter: #454F66;
+$c-tonic: #FFAD18;
+$c-secondary: #fefcfbff;
+$c-neutral: #4a7fbfff;
+$c-success: #22bfacff;
+$c-error: #ed1d23ff;
 
 /* ========
 
@@ -84,6 +100,13 @@ $color-cinnabar: #E74626;
         display: table;
         clear: both;
     }
+}
+
+@mixin truncate($truncation-boundary) {
+    max-width: $truncation-boundary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 

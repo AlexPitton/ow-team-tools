@@ -1,2 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
+@font-face {
+    font-family: 'Archia';
+    src: url( $font-path + 'archia-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Monumental';
+    src: url( $font-path + 'MonumentExtended-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Monumental';
+    src: url( $font-path + 'MonumentExtended-Ultrabold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+

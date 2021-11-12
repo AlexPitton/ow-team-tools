@@ -72,7 +72,7 @@
                 display: block;
                 width: 110%;
                 height: 2px;
-                background-color: $color-orange-peel;
+                background-color: $c-tonic;
             }
 
             &:first-child {
