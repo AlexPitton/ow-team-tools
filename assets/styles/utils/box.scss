@@ -29,7 +29,21 @@ DISPLAY FLEX
 .u-justify-content-around {justify-content: space-around;}
 .u-justify-content-evenly {justify-content: space-evenly;}
 
-
+// POSITION
 .u-relative {position: relative}
 
+// MARGINS
+$sizez: 5, 10, 15, 20, 25, 30, 50, 90;
+
+@each $size in $sizez {
+    .u-mt-#{$size} {margin-top: #{$size}px;}
+    .u-mr-#{$size} {margin-right: #{$size}px;}
+    .u-mb-#{$size} {margin-bottom: #{$size}px;}
+    .u-ml-#{$size} {margin-left: #{$size}px;}
+
+    .u-pt-#{$size} {padding-top: #{$size}px;}
+    .u-pr-#{$size} {padding-right: #{$size}px;}
+    .u-pb-#{$size} {padding-bottom: #{$size}px;}
+    .u-pl-#{$size} {padding-left: #{$size}px;}
+}
 

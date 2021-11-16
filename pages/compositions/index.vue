@@ -1,6 +1,6 @@
 <template>
     <div class="page">
-        <h1 class="main-title">
+        <h1 class="font-title">
             Your team's compositions
         </h1>
         <div class="upcomming-feature">
@@ -12,7 +12,7 @@
             </p>
         </div>
 
-        <div class="composition-filters">
+        <div class="composition-filters font-mono">
             <p class="sub-title">Filter tools</p>
 
             <div class="u-flex">
@@ -57,11 +57,11 @@
         </div>
 
         <div class="compositions-list">
-            <div class="composition" v-for="compo in filteredComposition" :key="compo.id">
-                <div class="composition-header u-flex u-flex-justify-between">
+            <div class="composition u-mb-25" :class="compo.status" v-for="compo in filteredComposition" :key="compo.id">
+                <div class="composition-header u-flex u-justify-content-between">
                     <div>
-                        <p class="composition-title">{{compo.name}}</p>
-                        <p class="composition-author" v-if="compo.author.username">Created by <span>{{compo.author.username}}</span></p>
+                        <p class="composition-title font-base">{{compo.name}}</p>
+                        <p class="composition-author font-base" v-if="compo.author.username">Created by <span>{{compo.author.username}}</span></p>
                         <Tag :label="compo.status" />
                     </div>
                     <div>
@@ -69,7 +69,10 @@
                     </div>
                 </div>
                 <CompositionReadOnly :heroes="compositionHeroes(compo.heroes)" />
-                <ButtonAction :label="'See details'" v-on:click="goToComposition(compo.id)" />
+
+                <button class="t-btn t-btn_primary u-mt-20" @click="goToComposition(compo.id)">
+                    See details
+                </button>
             </div>
         </div>
     </div>
@@ -78,13 +81,11 @@
 <script>
     import { mapActions } from "vuex"
     import CompositionReadOnly from "@/components/compositions/CompositionReadOnly.vue"
-    import ButtonAction from "@/components/common/ui/ButtonAction.vue"
     import Tag from "@/components/common/ui/Tag.vue"
 
     export default {
         components: {
             CompositionReadOnly,
-            ButtonAction,
             Tag
         },
         computed: {
@@ -166,13 +167,15 @@
         margin: 50px 0;
 
         .composition {
-            border-left: 5px solid $color-rich-black;
+            border-left: 5px solid;
             padding: 25px;
-            margin-bottom: 50px;
-            background-color: $color-concrete;
-            border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
+            background-color: rgba(255,255,255, 0.1);
+            border-radius: 5px;
             width: 50%;
+
+            &.draft {border-color: $c-tonic;}
+            &.published {border-color: $color-emerald;}
+            &.validated {border-color: $color-medium-purple;}
 
             .composition-wrapper .hero {
                 max-width: 65px;
@@ -187,14 +190,14 @@
                 font-weight: 800;
                 margin-bottom: 5px;
                 text-transform: uppercase;
-                transform: skew(-10deg);
+                //transform: skew(-10deg);
             }
 
             .composition-author {
                 font-size: 14px;
                 font-weight: 400;
                 margin-bottom: 10px;
-                transform: skew(-10deg);
+                //transform: skew(-10deg);
 
                 span {
                     font-weight: 600;

@@ -1,8 +1,32 @@
 <template>
     <div class="page dashboard">
-        <h1 class="font-title-bold t-color-white">Hello <span class="t-txt-outline">{{$auth.user.username}}</span></h1>
+        <h1 class="font-title-bold t-color-white u-mb-90">Hello <span class="t-txt-outline">{{$auth.user.username}}</span></h1>
 
         <h2 class="font-title t-color-white">Last compo published</h2>
+
+
+        <div class="compositions-list">
+            <div class="composition" v-for="compo in lastCompoPublished" :key="compo.id">
+                <div class="composition-header u-flex u-justify-content-between">
+                    <div>
+                        <p class="composition-title">{{compo.name}}</p>
+                        <p class="composition-author" v-if="compo.author.username">Created by <span>{{compo.author.username}}</span></p>
+                        <Tag :label="compo.status" />
+                    </div>
+                    <div>
+                        <img class="compositon-map" :src="`${$axios.defaults.baseURL}${compo.map.miniature.url}`" :alt="compo.map.name">
+                    </div>
+                </div>
+                <CompositionReadOnly :heroes="compositionHeroes(compo.heroes)" />
+
+                <div class="u-flex u-mt-20">
+                    <button class="t-btn t-btn_primary u-mr-10" @click="goToComposition(compo.id)">
+                        See details
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div class="dashboard-cards">
             <div class="card user-details" v-if="userData">
                 <p class="sub-title">User details</p>
@@ -50,7 +74,7 @@
 
         <div class="compositions-list">
             <div class="composition" v-for="compo in filteredComposition" :key="compo.id">
-                <div class="composition-header u-flex u-flex-justify-between">
+                <div class="composition-header u-flex u-justify-content-between">
                     <div>
                         <p class="composition-title">{{compo.name}}</p>
                         <p class="composition-author" v-if="compo.author.username">Created by <span>{{compo.author.username}}</span></p>
@@ -62,24 +86,27 @@
                 </div>
                 <CompositionReadOnly :heroes="compositionHeroes(compo.heroes)" />
 
-                <ButtonAction :label="'Update'" v-on:click="goToComposition(compo.id)" />
-                <ButtonAction :label="'Delete'" v-on:click="deleteComposition(compo.id)" />
+                <div class="u-flex u-mt-20">
+                    <button class="t-btn t-btn_primary u-mr-10" @click="goToComposition(compo.id)">
+                        Update
+                    </button>
+                    <button class="t-btn t-btn_primary" @click="deleteComposition(compo.id)">
+                        Delete
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import axios from "axios"
-    import { mapActions, mapGetters } from "vuex"
+    import { mapActions } from "vuex"
     import CompositionReadOnly from "@/components/compositions/CompositionReadOnly.vue"
-    import ButtonAction from "@/components/common/ui/ButtonAction.vue"
     import Tag from "@/components/common/ui/Tag.vue"
 
     export default {
         components: {
             CompositionReadOnly,
-            ButtonAction,
             Tag
         },
         computed: {
@@ -91,6 +118,9 @@
             },
             filteredComposition() {
                 return this.filterByMap(this.filterByName(this.filterByStatus(this.$store.state.userCompositions)))
+            },
+            lastCompoPublished() {
+                return this.$store.state.lastComposition
             }
         },
         data() {
@@ -105,6 +135,7 @@
         },
         created() {
             this.getMaps()
+            this.getLastComposition()
             this.$axios.get(`/users/me`)
                 .then(response => {
                     this.userData = response.data
@@ -112,7 +143,7 @@
                 })
         },
         methods: {
-            ...mapActions(['getUserCompositions', 'getMaps']),
+            ...mapActions(['getUserCompositions', 'getLastComposition', 'getMaps']),
             filterByName(compositions) {
                 return compositions.filter(compo => compo.name.toLowerCase().includes(this.filters.name.toLocaleLowerCase()))
             },
@@ -159,10 +190,6 @@
 
     .dashboard-cards {
         display: flex;
-
-        .card {
-
-        }
     }
 
     .user-details {

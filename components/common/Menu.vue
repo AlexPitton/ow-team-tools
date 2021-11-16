@@ -1,11 +1,11 @@
 <template>
 
-    <div class="menu" :class="{'extended' : extended}" @mouseenter="onExtendMenuClick" @mouseleave="onExtendMenuClick">
+    <div class="menu" :class="{'extended' : extended}" @mouseenter="toggleExpandMenu" @mouseleave="toggleExpandMenu">
         <div class="menu-content-wrapper u-flex u-flex-direction-column u-justify-content-between">
 
             <div class="nav primary-nav">
                 <div class="nav-item">
-                    <NuxtLink class="u-flex u-align-items-center" @click="extended = false" to="/dashboard">
+                    <NuxtLink class="u-flex u-align-items-center" to="/dashboard">
                         <div class="menu-icon">
                             <svg-icon name="mosaicboard" />
                         </div>
@@ -13,7 +13,7 @@
                     </NuxtLink>
                 </div>
                 <div class="nav-item">
-                    <NuxtLink class="u-flex u-align-items-center" @click="extended = false" to="/">
+                    <NuxtLink class="u-flex u-align-items-center" to="/">
                         <div class="menu-icon builder">
                             <svg-icon name="forge" />
                         </div>
@@ -21,7 +21,7 @@
                     </NuxtLink>
                 </div>
                 <div class="nav-item">
-                    <NuxtLink class="u-flex u-align-items-center" @click="extended = false" to="/compositions">
+                    <NuxtLink class="u-flex u-align-items-center" to="/compositions">
                         <div class="menu-icon">
                             <svg-icon name="flex" />
                         </div>
@@ -63,7 +63,7 @@
                     this.error = error
                 }
             },
-            onExtendMenuClick() {
+            toggleExpandMenu() {
                 this.extended = !this.extended
             }
         }

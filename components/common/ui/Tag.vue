@@ -1,5 +1,5 @@
 <template>
-    <div class="tag" :class="label">
+    <div class="tag font-mono" :class="label">
         <span>{{label}}</span>
     </div>
 </template>
@@ -22,8 +22,8 @@
         border-radius: 3px;
 
         span {
-            line-height: 25px;
-            font-size: 11px;
+            line-height: 20px;
+            font-size: 9px;
             text-transform: uppercase;
             font-weight: 600;
             letter-spacing: 0.07em;

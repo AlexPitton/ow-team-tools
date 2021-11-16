@@ -66,7 +66,6 @@
     import Composition from "@/components/compositions/Composition.vue"
     import HeroesList from "@/components/heroes/HeroesList.vue"
     import Editor from "@/components/common/form/Editor.vue"
-    import ButtonAction from "@/components/common/ui/ButtonAction.vue"
     import MapSelect from "@/components/common/form/MapSelect.vue"
 
     export default {
@@ -74,7 +73,6 @@
         components: {
             Composition,
             HeroesList,
-            ButtonAction,
             Editor,
             MapSelect
         },
