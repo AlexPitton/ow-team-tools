@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="filter filter-map">
-                    <label for="filter-map">
+                    <label for="filter-user">
                         Author
                     </label>
                     <select id="filter-user" v-model="filters.user">
@@ -70,9 +70,11 @@
                 </div>
                 <CompositionReadOnly :heroes="compositionHeroes(compo.heroes)" />
 
-                <button class="t-btn t-btn_primary u-mt-20" @click="goToComposition(compo.id)">
-                    See details
-                </button>
+                <div class="u-flex u-justify-content-end u-mt-20">
+                    <button class="t-btn t-btn_primary u-ml-10" @click="goToComposition(compo.id)">
+                        See details
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -164,7 +166,6 @@
     }
 
     .compositions-list {
-        margin: 50px 0;
 
         .composition {
             border-left: 5px solid;
@@ -190,14 +191,12 @@
                 font-weight: 800;
                 margin-bottom: 5px;
                 text-transform: uppercase;
-                //transform: skew(-10deg);
             }
 
             .composition-author {
                 font-size: 14px;
                 font-weight: 400;
                 margin-bottom: 10px;
-                //transform: skew(-10deg);
 
                 span {
                     font-weight: 600;

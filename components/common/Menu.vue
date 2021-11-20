@@ -28,6 +28,15 @@
                         <p class="font-base fw-semibold">Compositions</p>
                     </NuxtLink>
                 </div>
+
+                <div class="nav-item">
+                    <NuxtLink class="u-flex u-align-items-center" to="/compositions">
+                        <div class="menu-icon">
+                            <svg-icon name="calendar" />
+                        </div>
+                        <p class="font-base fw-semibold">Planning</p>
+                    </NuxtLink>
+                </div>
             </div>
 
             <div class="nav bottom-nav">
@@ -107,7 +116,7 @@
         .nav {
             .nav-item {
                 position: relative;
-                margin-bottom: 30px;
+                margin-bottom: 40px;
                 cursor: pointer;
 
                 & > a, & > div {

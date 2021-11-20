@@ -2,11 +2,10 @@
     <div class="page dashboard">
         <h1 class="font-title-bold t-color-white u-mb-90">Hello <span class="t-txt-outline">{{$auth.user.username}}</span></h1>
 
-        <h2 class="font-title t-color-white">Last compo published</h2>
-
+        <h2 class="font-title t-color-white u-mb-15">Last compo published</h2>
 
         <div class="compositions-list">
-            <div class="composition" v-for="compo in lastCompoPublished" :key="compo.id">
+            <div class="composition" :class="compo.status" v-for="compo in lastCompoPublished" :key="compo.id">
                 <div class="composition-header u-flex u-justify-content-between">
                     <div>
                         <p class="composition-title">{{compo.name}}</p>
@@ -19,7 +18,7 @@
                 </div>
                 <CompositionReadOnly :heroes="compositionHeroes(compo.heroes)" />
 
-                <div class="u-flex u-mt-20">
+                <div class="u-flex u-mt-20 u-justify-content-end">
                     <button class="t-btn t-btn_primary u-mr-10" @click="goToComposition(compo.id)">
                         See details
                     </button>
@@ -27,16 +26,16 @@
             </div>
         </div>
 
-        <div class="dashboard-cards">
-            <div class="card user-details" v-if="userData">
-                <p class="sub-title">User details</p>
-                <p>Username : {{userData.username}}</p>
-                <p>Email (may be a fake email) : {{userData.email}}</p>
-                <p>Role : {{userData.role.name}}</p>
-            </div>
-        </div>
+        <!--<div class="dashboard-cards">-->
+            <!--<div class="card user-details" v-if="userData">-->
+                <!--<p class="sub-title">User details</p>-->
+                <!--<p>Username : {{userData.username}}</p>-->
+                <!--<p>Email (may be a fake email) : {{userData.email}}</p>-->
+                <!--<p>Role : {{userData.role.name}}</p>-->
+            <!--</div>-->
+        <!--</div>-->
 
-        <h2 class="main-title">My compositions</h2>
+        <h2 class="font-title t-color-white u-mb-15">My compositions</h2>
 
         <div class="composition-filters">
             <p class="sub-title">Filter tools</p>
@@ -73,7 +72,7 @@
         </div>
 
         <div class="compositions-list">
-            <div class="composition" v-for="compo in filteredComposition" :key="compo.id">
+            <div class="composition" :class="compo.status" v-for="compo in filteredComposition" :key="compo.id">
                 <div class="composition-header u-flex u-justify-content-between">
                     <div>
                         <p class="composition-title">{{compo.name}}</p>
@@ -86,11 +85,11 @@
                 </div>
                 <CompositionReadOnly :heroes="compositionHeroes(compo.heroes)" />
 
-                <div class="u-flex u-mt-20">
-                    <button class="t-btn t-btn_primary u-mr-10" @click="goToComposition(compo.id)">
+                <div class="u-flex u-justify-content-end u-mt-20">
+                    <button class="t-btn t-btn_primary u-ml-10" @click="goToComposition(compo.id)">
                         Update
                     </button>
-                    <button class="t-btn t-btn_primary" @click="deleteComposition(compo.id)">
+                    <button class="t-btn t-btn_primary u-ml-10" @click="deleteComposition(compo.id)">
                         Delete
                     </button>
                 </div>
