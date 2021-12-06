@@ -1,55 +1,37 @@
 <template>
     <div class="page">
-        <h1 class="font-title">
+        <h1 class="font-title u-mb-90">
             Your team's compositions
         </h1>
-        <div class="upcomming-feature">
-            <span>
-                Upcomming feature
-            </span>
-            <p>
-                In fact this list contains all the compositions created by the players of the team, validated or not. A future feature is coming in which draft and validated compositions will be in separated lists.
-            </p>
-        </div>
 
-        <div class="composition-filters font-mono">
-            <p class="sub-title">Filter tools</p>
+        <div class="composition-filters font-mono u-flex u-align-items-center u-mb-30">
+            <div class="u-mr-30">
+                <p class="font-mono">Sort by</p>
+            </div>
 
             <div class="u-flex">
-                <div class="filter filter-name">
-                    <label for="filter-name">
-                        Name
-                    </label>
+                <div class="filter filter-name u-mr-20">
                     <input type="text" id="filter-name" v-model="filters.name" placeholder="Filter by name">
                 </div>
-                <div class="filter filter-status">
-                    <label for="filter-status">
-                        Status
-                    </label>
+                <div class="filter filter-status u-mr-20">
                     <select id="filter-status" v-model="filters.status">
-                        <option value="">All</option>
+                        <option value="">All status</option>
                         <option value="draft">Draft</option>
                         <option value="published">Published</option>
                         <option value="validated">Validated</option>
                     </select>
                 </div>
 
-                <div class="filter filter-map">
-                    <label for="filter-map">
-                        Map
-                    </label>
+                <div class="filter filter-map u-mr-20">
                     <select id="filter-map" v-model="filters.map">
-                        <option value="">All</option>
+                        <option value="">All maps</option>
                         <option v-for="map in maps" :value="map.name" :key="map.id">{{map.name}}</option>
                     </select>
                 </div>
 
-                <div class="filter filter-map">
-                    <label for="filter-user">
-                        Author
-                    </label>
+                <div class="filter filter-author">
                     <select id="filter-user" v-model="filters.user">
-                        <option value="">All</option>
+                        <option value="">All author</option>
                         <option v-for="user in users" :value="user.username" :key="user.id">{{user.username}}</option>
                     </select>
                 </div>

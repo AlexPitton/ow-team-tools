@@ -8,11 +8,11 @@ html, body {
 .page {
     background-color: $c-primary-dark;
     color: $c-white;
-    padding: 80px 35px 80px 105px;
+    padding: 80px 35px 80px 110px;
     transition: all 400ms $magikMotion;
+    min-height: 100vh;
 
     &.menu-extended {
-        //transform: translateX(170px);
         padding-left: 275px;
         transition: all 850ms $magikMotion;
     }

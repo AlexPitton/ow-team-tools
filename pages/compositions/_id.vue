@@ -1,16 +1,18 @@
 <template>
     <div class="page single-composition">
-        <div>
-            <h1 class="main-title">
-                {{composition.name}}
-            </h1>
 
+        <h1 class="font-title-bold t-color-white u-mb-90">
+            {{composition.name}}
+        </h1>
+
+        <div class="u-flex u-justify-content-center u-mb-50">
             <div class="composition">
                 <CompositionReadOnly :heroes="compositionHeroes(composition.heroes)" />
             </div>
-
-            <div class="description-container" v-html="composition.description"></div>
         </div>
+
+
+        <div class="description-container" v-html="composition.description"></div>
     </div>
 </template>
 
@@ -60,14 +62,13 @@
 
         .composition {
             display: inline-block;
-            margin: 40px 0 80px 0;
-            background-color: $color-concrete;
+            background-color: rgba(255,255,255, 0.1);
             border-radius: 6px;
             padding: 25px;
         }
 
         .description-container {
-            background-color: $color-concrete;
+            background-color: $c-primary-light;
             border-radius: 6px;
             padding: 25px;
 

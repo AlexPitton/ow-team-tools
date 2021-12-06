@@ -7,7 +7,7 @@
 
         <div class="heroes-list-container">
             <HeroesList
-                v-on:heroSelected="setHero"
+                @heroSelected="setHero"
                 :heroes="heroes"
                 :heroesSelection="heroesSelection"
                 :lockedRole="lockedRole"
@@ -20,9 +20,9 @@
             <Composition
                 :heroes="heroesSelection"
                 :valid="heroesSelection >= 6"
-                v-on:heroRemoved="removeHero"
-                v-on:flexRemoved="removeFlex"
-                v-on:flexModeRequested="onFlexModeRequested"
+                @heroRemoved="removeHero"
+                @flexRemoved="removeFlex"
+                @flexModeRequested="onFlexModeRequested"
                 ref="composition"
             />
         </div>
@@ -34,7 +34,7 @@
                     Choose a map
                 </p>
 
-                <MapSelect :data="maps" v-on:mapSelected="onMapSelected" />
+                <MapSelect :data="maps" @mapSelected="onMapSelected" />
             </div>
 
             <div class="field-container">
@@ -47,7 +47,7 @@
                 <p class="hint">
                     A good composition is a composition that makes sense! So don't hesitate to explain here the strong points, the weak points, the victory conditions, the ultimate rotations...
                 </p>
-                <Editor v-on:onChange="onEditorChange" />
+                <Editor @onChange="onEditorChange" />
             </div>
 
             <button class="t-btn t-btn_primary" :class="{'disabled' : heroesSelection.length !== 6 || !form.name || !form.map}" @click="sendComposition">

@@ -9,6 +9,9 @@
         components: {
             'ckeditor-nuxt': () => { if (process.client) { return import('@blowstack/ckeditor-nuxt') } },
         },
+        props: {
+            data: String,
+        },
         data() {
             return {
                 editorConfig: {
@@ -64,7 +67,12 @@
                         }
                     }
                 },
-                contentHolder: ""
+                contentHolder: this.data
+            }
+        },
+        computed: {
+            ckcontent: function () {
+                return this.data
             }
         },
         methods: {
@@ -77,10 +85,11 @@
 
 <style lang="scss">
     .ck-content {
-        font-family: 'Inter', sans-serif;
+        font-family: $font-mono;
         font-size: 16px;
         line-height: 26px;
         height: 350px;
+        color: $c-black;
 
         p {
             margin: 15px 0;
@@ -114,7 +123,7 @@
     }
 
     .ck.ck-editor__editable > .ck-placeholder::before {
-        color: $color-rich-black;
+        color: $c-black;
         font-size: 12px;
         font-family: "Courier", monospace;
     }

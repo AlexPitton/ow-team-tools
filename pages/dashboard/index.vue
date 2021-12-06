@@ -4,7 +4,7 @@
 
         <h2 class="font-title t-color-white u-mb-15">Last compo published</h2>
 
-        <div class="compositions-list">
+        <div class="compositions-list u-mb-50">
             <div class="composition" :class="compo.status" v-for="compo in lastCompoPublished" :key="compo.id">
                 <div class="composition-header u-flex u-justify-content-between">
                     <div>
@@ -37,42 +37,39 @@
 
         <h2 class="font-title t-color-white u-mb-15">My compositions</h2>
 
-        <div class="composition-filters">
-            <p class="sub-title">Filter tools</p>
+        <div class="composition-filters u-flex u-align-items-center u-mb-30">
+            <div class="u-mr-30">
+                <p class="font-mono">Sort by</p>
+            </div>
 
-            <div class="u-flex">
-                <div class="filter filter-name">
-                    <label for="filter-name">
-                        Name
-                    </label>
-                    <input type="text" id="filter-name" v-model="filters.name" placeholder="Filter by name">
+            <div class="u-flex u-align-items-center">
+                <div class="filter filter-name u-mr-20">
+                    <input class="font-mono" type="text" id="filter-name" v-model="filters.name" placeholder="Name">
+                    <svg-icon name="loupe" />
                 </div>
-                <div class="filter filter-status">
-                    <label for="filter-status">
-                        Status
-                    </label>
+
+                <div class="filter filter-status u-mr-20">
                     <select id="filter-status" v-model="filters.status">
-                        <option value="">All</option>
+                        <option value="">All status</option>
                         <option value="draft">Draft</option>
                         <option value="published">Published</option>
                         <option value="validated">Validated</option>
                     </select>
+                    <svg-icon name="chevron-down" />
                 </div>
 
-                <div class="filter filter-map">
-                    <label for="filter-map">
-                        Map
-                    </label>
+                <div class="filter filter-map u-mr-20">
                     <select id="filter-map" v-model="filters.map">
-                        <option value="">All</option>
+                        <option value="">All maps</option>
                         <option v-for="map in maps" :value="map.name" :key="map.id">{{map.name}}</option>
                     </select>
+                    <svg-icon name="chevron-down" />
                 </div>
             </div>
         </div>
 
         <div class="compositions-list">
-            <div class="composition" :class="compo.status" v-for="compo in filteredComposition" :key="compo.id">
+            <div class="composition u-mb-30" :class="compo.status" v-for="compo in filteredComposition" :key="compo.id">
                 <div class="composition-header u-flex u-justify-content-between">
                     <div>
                         <p class="composition-title">{{compo.name}}</p>
@@ -86,7 +83,7 @@
                 <CompositionReadOnly :heroes="compositionHeroes(compo.heroes)" />
 
                 <div class="u-flex u-justify-content-end u-mt-20">
-                    <button class="t-btn t-btn_primary u-ml-10" @click="goToComposition(compo.id)">
+                    <button class="t-btn t-btn_primary u-ml-10" @click="updateComposition(compo.id)">
                         Update
                     </button>
                     <button class="t-btn t-btn_primary u-ml-10" @click="deleteComposition(compo.id)">
@@ -170,6 +167,9 @@
             },
             goToComposition(id) {
                 this.$router.push({path: `/compositions/${id}`})
+            },
+            updateComposition(id) {
+                this.$router.push({path: `/compositions/update/${id}`})
             },
             deleteComposition(id) {
                 this.$axios

@@ -1,0 +1,41 @@
+
+.filter {
+    position: relative;
+
+    input[type="text"] {
+        background-color: $c-primary-lighter;
+        line-height: 28px;
+        border-radius: 5px;
+        padding: 0 35px 0 10px;
+        max-width: 130px;
+        color: $c-white;
+
+        &:placeholder {
+            color: $c-primary-light;
+            font-family: $font-mono;
+        }
+    }
+
+    select {
+        background-color: $c-primary-lighter;
+        line-height: 28px;
+        border-radius: 5px;
+        padding: 0 35px 0 10px;
+        min-width: 130px;
+        color: $c-white;
+        font-family: $font-mono;
+    }
+
+    .icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        width: 15px;
+        height: 15px;
+        pointer-events: none;
+
+        transform: translateY(-50%);
+    }
+
+
+}
