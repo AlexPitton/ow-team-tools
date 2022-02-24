@@ -29,22 +29,6 @@
     }
 }
 
-.t-btn_full {
-    position: relative;
-    display: block;
-    width: 100%;
-    font-size: 16px;
-    line-height: 50px;
-    letter-spacing: 0.04em;
-    border-radius: 5px;
-    margin-bottom: 30px;
-    transition: all 150ms $authenticMotion;
-
-    &:hover {
-        transform: scale(1.05);
-    }
-}
-
 .t-btn_primary {
     font-size: 14px;
     border-radius: 3px;
@@ -56,4 +40,14 @@
     font-weight: 800;
 }
 
-
+.t-btn_full {
+    position: relative;
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    line-height: 50px;
+    letter-spacing: 0.04em;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    transition: all 150ms $authenticMotion;
+}
