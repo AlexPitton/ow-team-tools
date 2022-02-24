@@ -11,17 +11,23 @@
             </div>
         </div>
 
+        <Editor :data="composition.description" @onChange="onEditorChange" />
 
-        <div class="description-container" v-html="composition.description"></div>
+        <button class="t-btn t-btn_primary u-mt-30" @click="updateComposition(composition.id)">
+            Update composition
+        </button>
+
     </div>
 </template>
 
 <script>
     import CompositionReadOnly from "@/components/compositions/CompositionReadOnly.vue"
+    import Editor from "@/components/common/form/Editor.vue"
 
     export default {
         components: {
-            CompositionReadOnly
+            CompositionReadOnly,
+            Editor
         },
         computed: {
             heroes() {
@@ -29,6 +35,16 @@
             },
             maps() {
                 return this.$store.state.maps
+            }
+        },
+        data() {
+            return {
+                form: {
+                    description: this.description
+                },
+                success: false,
+                error: false,
+                errorMessage: ''
             }
         },
         async asyncData({params, $axios}) {
@@ -51,6 +67,18 @@
                 })
 
                 return [...sortedArray['tank'], ...sortedArray['dps'],...sortedArray['support']]
+            },
+            onEditorChange(data) {
+                this.form.description = data
+            },
+            updateComposition(id) {
+
+                let formData = {
+                    description: this.form.description
+                }
+
+                this.$axios.put(`/compositions/${id}`, formData).then( response => { this.success = true}).catch( error => {this.error = true; this.errorMessage = error} )
+
             }
         }
     }

@@ -13,9 +13,9 @@
                     </NuxtLink>
                 </div>
                 <div class="nav-item">
-                    <NuxtLink class="u-flex u-align-items-center" to="/">
+                    <NuxtLink class="u-flex u-align-items-center" to="/builder">
                         <div class="menu-icon builder">
-                            <svg-icon name="forge" />
+                            <svg-icon name="forge-2" />
                         </div>
                         <p class="font-base fw-semibold">Builder</p>
                     </NuxtLink>
@@ -23,14 +23,14 @@
                 <div class="nav-item">
                     <NuxtLink class="u-flex u-align-items-center" to="/compositions">
                         <div class="menu-icon">
-                            <svg-icon name="flex" />
+                            <svg-icon name="cards" />
                         </div>
                         <p class="font-base fw-semibold">Compositions</p>
                     </NuxtLink>
                 </div>
 
                 <div class="nav-item">
-                    <NuxtLink class="u-flex u-align-items-center" to="/compositions">
+                    <NuxtLink class="u-flex u-align-items-center" to="/planning">
                         <div class="menu-icon">
                             <svg-icon name="calendar" />
                         </div>
@@ -178,7 +178,7 @@
                     transition: 250ms $easeOutCirc;
                 }
 
-                &.nuxt-link-exact-active::before {
+                &.nuxt-link-active::before {
                     height: 150%;
                 }
             }
