@@ -1,6 +1,8 @@
 export const state = () => ({
+    // CONF
     isTouchEnabled: null,
     isPortrait: null,
+    // API
     heroes: [],
     compositions: [],
     lastComposition: [],
@@ -8,7 +10,9 @@ export const state = () => ({
     userCompositions: [],
     maps: [],
     users: [],
-    countCompositions: null
+    countCompositions: null,
+    // CLIENT
+    heroesSelection: [] // TODO use vuex for composition, not data (cf CompositionBuilder)
 })
 
 export const getters = {
@@ -24,8 +28,14 @@ export const getters = {
 }
 
 export const mutations = {
+    // CONF
+    onResize(state) {
+        state.isTouchEnabled = ( 'ontouchstart' in window ) || ( navigator.maxTouchPoints > 0 ) || ( navigator.msMaxTouchPoints > 0 )
+        state.isPortrait = window.innerHeight > window.innerWidth
+    },
+    // API
     setHeroes(state, heroes) {
-        state.heroes = heroes.sort((a, b) => a.name.localeCompare(b.name))
+        state.heroes = heroes.data.sort((a, b) => a.attributes.name.localeCompare(b.attributes.name))
     },
     setAllCompositions(state, compositions) {
         state.compositions = compositions
@@ -52,21 +62,21 @@ export const mutations = {
         let index = state.userCompositions.findIndex( c => c.id === userComposition.id)
         state.userCompositions.splice(index, 1)
     },
-    onResize(state) {
-        state.isTouchEnabled = ( 'ontouchstart' in window ) || ( navigator.maxTouchPoints > 0 ) || ( navigator.msMaxTouchPoints > 0 )
-        state.isPortrait = window.innerHeight > window.innerWidth
+    // CLIENT
+    addHeroesSelection(state, data) {
+        state.heroesSelection.push(data)
     }
 }
 
 export const actions = {
     async nuxtServerInit ({commit}) {
         if (this.state.auth.loggedIn) {
-            let {data} = await this.$axios.get('/heroes')
+            let {data} = await this.$axios.get('/api/heroes?populate=*')
             commit('setHeroes', data)
         }
     },
     async getHeroes ({commit}) {
-        let {data} = await this.$axios.get('/heroes')
+        let {data} = await this.$axios.get('/api/heroes?populate=*')
         commit('setHeroes', data)
     },
     async getUserCompositions ({commit}, username) {

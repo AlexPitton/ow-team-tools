@@ -8,9 +8,9 @@
         <HeroSelected
             v-for="(hero, index) in heroesFilteredByRole"
             :hero="hero"
-            v-on:removeHero="heroRemoved(hero)"
-            v-on:removeFlex="flexRemoved(hero)"
-            v-on:activeFlexMode="flexModeRequested(hero.role, index, hero)"
+            @removeHero="heroRemoved(hero)"
+            @removeFlex="flexRemoved(hero)"
+            @activeFlexMode="flexModeRequested(hero.attributes.role, index, hero)"
             :key="hero.id"
             ref="heroesRefs"
         />
@@ -33,7 +33,7 @@
                 let sortedArray = {tank: [], dps: [], support: []}
 
                 this.heroes.forEach( (hero) => {
-                    sortedArray[hero.role].push(hero)
+                    sortedArray[hero.attributes.role].push(hero)
                 })
 
                 return [...sortedArray['tank'], ...sortedArray['dps'],...sortedArray['support']]
@@ -47,6 +47,8 @@
                 this.$emit('flexRemoved', hero)
             },
             flexModeRequested(role, index, hero) {
+
+                console.log(role, index, hero)
                 this.$emit('flexModeRequested', {role : role, index : index, hero : hero})
             },
             flexHasBeenSelected() {

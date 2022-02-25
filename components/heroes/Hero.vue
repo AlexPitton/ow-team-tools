@@ -1,7 +1,7 @@
 <template>
-    <div v-on:click="heroClickHandler()" class="hero" :class="{'role-locked' : isRoleLocked, 'flex-mode-active' : flexModeRole === hero.role && flexMode, 'is-selected' : isSelected}">
+    <div v-on:click="heroClickHandler()" class="hero" :class="{'role-locked' : isRoleLocked, 'flex-mode-active' : flexModeRole === hero.attributes.role && flexMode, 'is-selected' : isSelected}">
         <div class="portrait-container">
-            <img :src="`${$axios.defaults.baseURL}${hero.portrait.formats.thumbnail.url}`" alt="">
+            <img :src="`${$axios.defaults.baseURL}${heroPortrait}`" alt="">
         </div>
     </div>
 </template>
@@ -16,6 +16,11 @@
             flexMode: Boolean,
             flexModeRole: String,
             static: Boolean
+        },
+        computed: {
+            heroPortrait: function () {
+                return this.hero.attributes.portrait.data.attributes.url
+            }
         },
         methods: {
             heroClickHandler: function () {
@@ -34,7 +39,7 @@
 
         overflow: hidden;
         cursor: pointer;
-        transition: all 80ms $authenticMotion;
+        transition: transform 80ms $authenticMotion, opacity 150ms $authenticMotion, filter 150ms $authenticMotion;
         will-change: auto;
 
         .portrait-container {
@@ -49,7 +54,7 @@
 
         &.role-locked {
             filter: grayscale(1);
-            /*opacity: 0.5;*/
+            opacity: 0.8;
             cursor: not-allowed;
 
             &:hover {
@@ -60,7 +65,7 @@
 
         &.is-selected {
             filter: grayscale(1)!important;
-            opacity: 0.3!important;
+            opacity: 0.25!important;
             cursor: not-allowed!important;
 
             &:hover {

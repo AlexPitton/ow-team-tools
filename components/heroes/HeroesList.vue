@@ -2,9 +2,9 @@
     <div class="heroes-list">
         <div class="hero-card" v-for="hero in heroesFilteredByRole" :key="hero.id" :class="{'separator' : hero.last}">
             <Hero
-                v-on:heroClicked="heroSelected(hero)"
+                @heroClicked="heroSelected(hero)"
                 :hero="hero"
-                :isRoleLocked="lockedRole.includes(hero.role)"
+                :isRoleLocked="lockedRole.includes(hero.attributes.role)"
                 :isSelected="heroesSelection.includes(hero)"
                 :flexModeRole="flexModeRole"
                 :flexMode="flexMode"
@@ -35,13 +35,13 @@
         computed: {
             heroesFilteredByRole: function () {
 
-                let tanks = this.heroes.filter(hero => { return hero.role === 'tank' })
+                let tanks = this.heroes.filter(hero => { return hero.attributes.role === 'tank' })
                 tanks.length > 0 ? tanks[tanks.length - 1].last = true : false
 
-                let dpss = this.heroes.filter(hero => { return hero.role === 'dps' })
+                let dpss = this.heroes.filter(hero => { return hero.attributes.role === 'dps' })
                 dpss.length > 0 ? dpss[dpss.length - 1].last = true : false
 
-                let supports = this.heroes.filter(hero => { return hero.role === 'support' })
+                let supports = this.heroes.filter(hero => { return hero.attributes.role === 'support' })
                 supports.length > 0 ? supports[supports.length - 1].last = true : false
 
                 return [...tanks, ...dpss, ...supports]

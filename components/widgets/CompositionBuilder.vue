@@ -102,7 +102,17 @@
             },
             maps: function () {
                 return this.$store.state.maps
+            },
+            compositionSelection: function () { // TODO use vuex for composition, not data
+                return this.$store.state.heroesSelection
             }
+        },
+        mounted() {
+            // Get heroes if store is empty when you came from login page, see vuex store nuxtServerInit hook
+            if (this.$store.state.heroes.length < 1) {
+                this.getHeroes()
+            }
+            this.getMaps()
         },
         methods: {
             ...mapActions(['getHeroes', 'getMaps']),
@@ -122,17 +132,19 @@
 
                     this.$refs.composition.flexHasBeenSelected()
                 } else {
-                    // Check if composition is full, hero is already picked, there already 2 of each role
-                    if (this.heroesSelection.length >= this.maxHeroes || this.heroesSelection.includes(hero) || this.lockedRole.find(i => i === hero.role)) {
+                    // Check if composition is full && hero is already picked && there already 2 of each role
+                    if (this.heroesSelection.length >= this.maxHeroes || this.heroesSelection.includes(hero) || this.lockedRole.find(i => i === hero.attributes.role)) {
                         return;
                     }
 
                     // Only 2 of each role, check if role exist, if so add that role in lockedRole
-                    if (this.heroesSelection.find(item => item.role === hero.role)) {
-                        this.lockedRole.push(hero.role)
+                    if (this.heroesSelection.find(item => item.attributes.role === hero.attributes.role)) {
+                        this.lockedRole.push(hero.attributes.role)
                     }
 
+
                     this.heroesSelection.push(hero)
+                    this.$store.commit('addHeroesSelection', hero)
                 }
 
             },
@@ -165,6 +177,8 @@
                 this.flexModeRole = object.role
                 this.flexModeHeroIndex = object.index
                 this.flexTarget = object.hero
+
+                console.log(this.flexMode, this.flexModeRole, this.flexModeHeroIndex, this.flexTarget)
             },
             onMapSelected(map) {
                 this.form.map = map
@@ -213,13 +227,6 @@
                     })
 
             }
-        },
-        mounted() {
-            // Get heroes if store is empty when you came from login page, see vuex store nuxtServerInit hook
-            if (this.$store.state.heroes.length < 1) {
-                this.getHeroes()
-            }
-            this.getMaps()
         }
     }
 </script>

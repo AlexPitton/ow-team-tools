@@ -1,24 +1,24 @@
 <template>
     <div class="hero" :class="{'flex-mode-active' : isFlexModeActive}">
         <div class="portrait-container">
-            <img :src="`${$axios.defaults.baseURL}${hero.portrait.url}`">
-            <span class="cross" v-on:click="removeHeroClickHandler()">
+            <img :src="`${$axios.defaults.baseURL}${heroPortrait}`">
+            <span class="cross" @click="removeHeroClickHandler()">
                 <svg-icon name="bin" />
             </span>
             <span
                 title="Add flexible picks"
                 class="flex"
-                v-on:click="activeFlexMode()"
+                @click="activeFlexMode()"
             >
                 <svg-icon name="flex" />
             </span>
         </div>
         <div class="flex-heroes">
             <div v-for="flex in hero.flex" :key="flex.id">
-                <span class="cross" v-on:click="removeFlexClickHandler()">
+                <span class="cross" @click="removeFlexClickHandler()">
                     <svg-icon name="bin" />
                 </span>
-                <img :src="`${$axios.defaults.baseURL}${flex.portrait.url}`">
+                <img :src="`${$axios.defaults.baseURL}${flex.attributes.portrait.data.attributes.url}`">
             </div>
         </div>
     </div>
@@ -34,6 +34,11 @@
         data() {
             return {
                 isFlexModeActive: false
+            }
+        },
+        computed: {
+            heroPortrait: function () {
+                return this.hero.attributes.portrait.data.attributes.url
             }
         },
         methods: {
