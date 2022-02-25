@@ -1,7 +1,7 @@
 <template>
     <div class="page single-composition">
 
-        <h1 class="font-title-bold t-color-white u-mb-90">
+        <h1 class="font-title-bold t-white u-mb-90">
             {{composition.name}}
         </h1>
 

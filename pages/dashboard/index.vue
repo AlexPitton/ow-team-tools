@@ -1,8 +1,8 @@
 <template>
     <div class="page dashboard">
-        <h1 class="font-title-bold t-color-white u-mb-90">Hello <span class="t-txt-outline">{{$auth.user.username}}</span></h1>
+        <h1 class="font-title-bold t-white u-mb-90">Hello <span class="t-outline">{{$auth.user.username}}</span></h1>
 
-        <h2 class="font-title t-color-white u-mb-15">Last compo published</h2>
+        <h2 class="font-title t-white u-mb-15">Last compo published</h2>
 
         <div class="compositions-list u-mb-50">
             <div class="composition" :class="compo.status" v-for="compo in lastCompoPublished" :key="compo.id">
@@ -35,7 +35,7 @@
             <!--</div>-->
         <!--</div>-->
 
-        <h2 class="font-title t-color-white u-mb-15">My compositions</h2>
+        <h2 class="font-title t-white u-mb-15">My compositions</h2>
 
         <div class="composition-filters u-flex u-align-items-center u-mb-30">
             <div class="u-mr-30">

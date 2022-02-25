@@ -8,6 +8,12 @@ BASIC DISPLAY
 .u-valign-bottom {vertical-align: bottom}
 
 /*
+DIMENSIONS
+*/
+.u-full-x {width: 100%}
+.u-full-y {width: 100%}
+
+/*
 DISPLAY FLEX
 */
 
@@ -21,6 +27,11 @@ DISPLAY FLEX
 .u-align-items-end {align-items: flex-end;}
 .u-align-items-center {align-items: center;}
 .u-align-items-baseline {align-items: baseline;}
+
+.u-align-self-start {align-self: flex-start;}
+.u-align-self-end {align-self: flex-end;}
+.u-align-self-center {align-self: center;}
+.u-align-self-baseline {align-self: baseline;}
 
 // Justify
 .u-justify-content-end {justify-content: flex-end;}
@@ -36,6 +47,9 @@ DISPLAY FLEX
 $sizez: 5, 10, 15, 20, 25, 30, 50, 90;
 
 @each $size in $sizez {
+    .u-m#{$size} {margin: #{$size}px;}
+    .u-p#{$size} {padding: #{$size}px;}
+
     .u-mt-#{$size} {margin-top: #{$size}px;}
     .u-mr-#{$size} {margin-right: #{$size}px;}
     .u-mb-#{$size} {margin-bottom: #{$size}px;}

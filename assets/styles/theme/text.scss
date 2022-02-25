@@ -30,26 +30,20 @@ h2 {
     text-transform: uppercase;
 }
 //Colors
-.t-color-white {
+.t-white {
     color: $color-white;
     -webkit-text-stroke-color: $color-white;
 }
-.t-color-black {
+.t-black {
     color: $color-black;
     -webkit-text-stroke-color: $color-black;
 }
 // Transformation
-.t-txt-uppercase {
-    text-transform: uppercase;
-}
-.t-txt-outline {
-    -webkit-text-stroke-width: 1px;
-    color: transparent;
-}
-
-.t-txt-linethrough {
-    text-decoration: line-through;
-}
+.t-uppercase {text-transform: uppercase;}
+.t-outline {-webkit-text-stroke-width: 1px; color: transparent;}
+.t-linethrough {text-decoration: line-through;}
+.t-rtl {direction: rtl;}
+.t-ltr {direction: ltr;}
 
 // Align
 .t-align-r {text-align: right;}

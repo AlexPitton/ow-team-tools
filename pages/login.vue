@@ -1,15 +1,15 @@
 <template>
     <div class="login-page u-flex">
 
-        <div class="user-connect t-color-white font-mono u-flex u-align-items-center">
+        <div class="user-connect t-white font-mono u-flex u-align-items-center">
             <div class="form-container">
                 <p class="font-title-bold form-title">
-                    Sign-in to access your <span class="t-txt-outline">team's tools</span>
+                    Sign-in to access your <span class="t-outline">team's tools</span>
                 </p>
 
-                <!--<p class="t-c_plighter">-->
-                    <!--OwTT is personnal project-->
-                <!--</p>-->
+                <p class="t-c_plighter">
+                    OwTT is a personnal project. Account creation is currently closed.
+                </p>
 
                 <form method="post" @submit.prevent="login">
                     <div class="field-container">

@@ -1,12 +1,14 @@
 export const state = () => ({
+    isTouchEnabled: null,
+    isPortrait: null,
     heroes: [],
-    countCompositions: Number,
     compositions: [],
     lastComposition: [],
     publishedComposition: [],
     userCompositions: [],
     maps: [],
-    users: []
+    users: [],
+    countCompositions: null
 })
 
 export const getters = {
@@ -49,6 +51,10 @@ export const mutations = {
     deleteUserComposition(state, userComposition) {
         let index = state.userCompositions.findIndex( c => c.id === userComposition.id)
         state.userCompositions.splice(index, 1)
+    },
+    onResize(state) {
+        state.isTouchEnabled = ( 'ontouchstart' in window ) || ( navigator.maxTouchPoints > 0 ) || ( navigator.msMaxTouchPoints > 0 )
+        state.isPortrait = window.innerHeight > window.innerWidth
     }
 }
 

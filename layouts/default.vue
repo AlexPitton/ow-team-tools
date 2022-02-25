@@ -1,7 +1,7 @@
 <template>
     <div>
         <Menu v-if="$auth.loggedIn" />
-        <Nuxt :class="{'menu-extended' : menuExtended}"/>
+        <Nuxt />
     </div>
 </template>
 
@@ -12,9 +12,14 @@
         components: {
             Menu
         },
-        data() {
-            return {
-                menuExtended: false
+        mounted() {
+            window.addEventListener('resize', this.onResize)
+            this.onResize()
+        },
+        methods: {
+            onResize() {
+                this.$nuxt.$emit('onresize')
+                this.$store.commit('onResize')
             }
         }
     }
