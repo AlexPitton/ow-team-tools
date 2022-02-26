@@ -14,11 +14,8 @@
             </span>
         </div>
         <div class="flex-heroes">
-            <div v-for="flex in hero.flex" :key="flex.id">
-                <span class="cross" @click="removeFlexClickHandler()">
-                    <svg-icon name="bin" />
-                </span>
-                <img :src="`${$axios.defaults.baseURL}${flex.attributes.portrait.data.attributes.url}`">
+            <div v-if="hero.flex">
+                <img :src="`${$axios.defaults.baseURL}${hero.flex.attributes.portrait.data.attributes.url}`">
             </div>
         </div>
     </div>
@@ -43,10 +40,7 @@
         },
         methods: {
             removeHeroClickHandler() {
-                this.$emit('removeHero')
-            },
-            removeFlexClickHandler() {
-                this.$emit('removeFlex')
+                this.$store.commit('removeHeroFromSelection', this.hero)
             },
             activeFlexMode() {
                 this.$emit('activeFlexMode', this.hero)

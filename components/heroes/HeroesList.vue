@@ -22,7 +22,6 @@
         },
         props: {
             heroes: Array,
-            lockedRole: Array,
             heroesSelection: Array,
             flexMode: Boolean,
             flexModeRole: String
@@ -46,6 +45,9 @@
 
                 return [...tanks, ...dpss, ...supports]
 
+            },
+            lockedRole: function () {
+                return this.$store.state.lockedRole
             }
         },
         methods: {
@@ -64,13 +66,17 @@
             position: relative;
             margin: 0 2px;
 
+            &:hover {
+                z-index: 111;
+            }
+
             &::after {
                 content: '';
                 position: absolute;
                 bottom: -10px;
                 left: 0;
                 display: block;
-                width: 110%;
+                width: 120%;
                 height: 2px;
                 background-color: $c-tonic;
             }

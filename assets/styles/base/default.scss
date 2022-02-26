@@ -18,6 +18,16 @@ html, body {
     }
 }
 
+.debug {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border: 1px solid red;
+    z-index: 9999;
+    background-color: rgba(0,0,0, 0.3);
+    color: white;
+}
+
 /**
 UI FEEDBACK STYLES
 **/

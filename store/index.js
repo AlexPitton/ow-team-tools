@@ -2,6 +2,7 @@ export const state = () => ({
     // CONF
     isTouchEnabled: null,
     isPortrait: null,
+    maxHeroes: 6,
     // API
     heroes: [],
     compositions: [],
@@ -12,7 +13,8 @@ export const state = () => ({
     users: [],
     countCompositions: null,
     // CLIENT
-    heroesSelection: [] // TODO use vuex for composition, not data (cf CompositionBuilder)
+    heroesSelection: [],
+    lockedRole: []
 })
 
 export const getters = {
@@ -24,6 +26,10 @@ export const getters = {
     loggedInUser(state) {
         return state.auth.user
     },
+
+    getHeroesSelection: (state) => {
+        return state.heroesSelection
+    }
 
 }
 
@@ -63,8 +69,20 @@ export const mutations = {
         state.userCompositions.splice(index, 1)
     },
     // CLIENT
-    addHeroesSelection(state, data) {
-        state.heroesSelection.push(data)
+    addHeroToSelection(state, hero) {
+        state.heroesSelection.push(hero)
+    },
+    removeHeroFromSelection(state, hero) {
+        state.heroesSelection[state.heroesSelection.indexOf(hero)]['flex'] = null
+        state.heroesSelection.splice(state.heroesSelection.indexOf(hero), 1)
+        state.lockedRole = state.lockedRole.filter( (value) => { return value !== hero.attributes.role })
+    },
+    addFlexHero(state, data) {
+        // let d = state.heroesSelection.find( obj => {return obj === data.flexTarget})['flex'] = [data.hero]
+        state.heroesSelection[state.heroesSelection.indexOf(data.flexTarget)]['flex'] = data.hero
+    },
+    lockRole(state, role) {
+        state.lockedRole.push(role)
     }
 }
 

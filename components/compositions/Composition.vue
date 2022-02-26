@@ -8,9 +8,7 @@
         <HeroSelected
             v-for="(hero, index) in heroesFilteredByRole"
             :hero="hero"
-            @removeHero="heroRemoved(hero)"
-            @removeFlex="flexRemoved(hero)"
-            @activeFlexMode="flexModeRequested(hero.attributes.role, index, hero)"
+            @activeFlexMode="flexModeRequested(hero)"
             :key="hero.id"
             ref="heroesRefs"
         />
@@ -40,16 +38,8 @@
             }
         },
         methods: {
-            heroRemoved(hero) {
-                this.$emit('heroRemoved', hero)
-            },
-            flexRemoved(hero) {
-                this.$emit('flexRemoved', hero)
-            },
-            flexModeRequested(role, index, hero) {
-
-                console.log(role, index, hero)
-                this.$emit('flexModeRequested', {role : role, index : index, hero : hero})
+            flexModeRequested(hero) {
+                this.$emit('flexModeRequested', hero)
             },
             flexHasBeenSelected() {
                 this.$refs.heroesRefs.forEach( (hero) => {

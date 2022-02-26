@@ -1,5 +1,6 @@
 <template>
     <div>
+<!--        <div class="debug">{{hereos}}</div>-->
         <Menu v-if="$auth.loggedIn" />
         <Nuxt />
     </div>
@@ -15,6 +16,11 @@
         mounted() {
             window.addEventListener('resize', this.onResize)
             this.onResize()
+        },
+        computed: {
+            hereos: function () {
+                return this.$store.state.heroesSelection
+            }
         },
         methods: {
             onResize() {

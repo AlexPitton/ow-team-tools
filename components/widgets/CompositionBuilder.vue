@@ -9,8 +9,7 @@
             <HeroesList
                 @heroSelected="setHero"
                 :heroes="heroes"
-                :heroesSelection="heroesSelection"
-                :lockedRole="lockedRole"
+                :heroesSelection="compositionSelection"
                 :flexMode="flexMode"
                 :flexModeRole="flexModeRole"
             />
@@ -18,10 +17,8 @@
 
         <div class="composition-container">
             <Composition
-                :heroes="heroesSelection"
-                :valid="heroesSelection >= 6"
-                @heroRemoved="removeHero"
-                @flexRemoved="removeFlex"
+                :heroes="compositionSelection"
+                :valid="compositionSelection >= $store.state.maxHeroes"
                 @flexModeRequested="onFlexModeRequested"
                 ref="composition"
             />
@@ -78,12 +75,9 @@
         },
         data() {
             return {
-                maxHeroes: 6,
                 heroesSelection: [],
-                lockedRole: [],
                 flexMode: false,
                 flexModeRole: '',
-                flexModeHeroIndex: null,
                 flexTarget: null,
                 form: {
                     name: '',
@@ -103,8 +97,11 @@
             maps: function () {
                 return this.$store.state.maps
             },
-            compositionSelection: function () { // TODO use vuex for composition, not data
+            compositionSelection: function () {
                 return this.$store.state.heroesSelection
+            },
+            lockedRole: function () {
+                return this.$store.state.lockedRole
             }
         },
         mounted() {
@@ -126,59 +123,40 @@
 
                 // Check if flexMode is active
                 if (this.flexMode) {
-                    this.heroesSelection.find( obj => {return obj === this.flexTarget})['flex'] = [hero]
+                    // this.compositionSelection.find( obj => {return obj === this.flexTarget})['flex'] = [hero]
+
+                    this.$store.commit('addFlexHero', {flexTarget: this.flexTarget, hero: hero})
                     this.flexMode = !this.flexMode
                     this.flexModeRole = ''
 
                     this.$refs.composition.flexHasBeenSelected()
                 } else {
                     // Check if composition is full && hero is already picked && there already 2 of each role
-                    if (this.heroesSelection.length >= this.maxHeroes || this.heroesSelection.includes(hero) || this.lockedRole.find(i => i === hero.attributes.role)) {
+                    if (this.compositionSelection.length >= this.$store.state.maxHeroes || this.compositionSelection.includes(hero) || this.lockedRole.find(i => i === hero.attributes.role)) {
                         return;
                     }
 
                     // Only 2 of each role, check if role exist, if so add that role in lockedRole
-                    if (this.heroesSelection.find(item => item.attributes.role === hero.attributes.role)) {
-                        this.lockedRole.push(hero.attributes.role)
+                    if (this.compositionSelection.find(item => item.attributes.role === hero.attributes.role)) {
+                        this.$store.commit('lockRole', hero.attributes.role)
                     }
 
 
-                    this.heroesSelection.push(hero)
-                    this.$store.commit('addHeroesSelection', hero)
+                    // this.heroesSelection.push(hero)
+                    this.$store.commit('addHeroToSelection', hero)
                 }
 
             },
             /**
-             * Triggered when hero needs to be removed from Composition
-             * @param hero : Object : Hero object
-             */
-            removeHero(hero) {
-                // First, reset flex property
-                this.heroesSelection[this.heroesSelection.indexOf(hero)]['flex'] = null
-                this.heroesSelection.splice(this.heroesSelection.indexOf(hero), 1)
-                this.lockedRole = this.lockedRole.filter( (value) => { return value !== hero.role })
-            },
-            /**
-             * Triggered when flex hero needs to be removed from Composition
-             * @param hero : Object : Hero object
-             */
-            removeFlex(hero) {
-                // TODO c'est bug ca, ca marche mais le Composition refait pas le render parce que Vue n'a pas détecté de changement
-                this.heroesSelection[this.heroesSelection.indexOf(hero)]['flex'] = null
-            },
-            /**
              * Active/re-Active HeroesList base on role.
              * Basicly, Sometimes for the same position, several heroes can be played.
-             * User might needs to associate other heroes to the same position.
-             * @param object : Object {role, index}
+             * User might needs to associate other heroes for a role.
+             * @param hero : Object : Hero object
              */
-            onFlexModeRequested(object) {
+            onFlexModeRequested(hero) {
                 this.flexMode = !this.flexMode
-                this.flexModeRole = object.role
-                this.flexModeHeroIndex = object.index
-                this.flexTarget = object.hero
-
-                console.log(this.flexMode, this.flexModeRole, this.flexModeHeroIndex, this.flexTarget)
+                this.flexModeRole = hero.attributes.role
+                this.flexTarget = hero
             },
             onMapSelected(map) {
                 this.form.map = map

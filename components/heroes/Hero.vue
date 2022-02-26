@@ -1,5 +1,5 @@
 <template>
-    <div v-on:click="heroClickHandler()" class="hero" :class="{'role-locked' : isRoleLocked, 'flex-mode-active' : flexModeRole === hero.attributes.role && flexMode, 'is-selected' : isSelected}">
+    <div @click="heroClickHandler()" class="hero" :class="{'role-locked' : isRoleLocked, 'flex-mode-active' : flexModeRole === hero.attributes.role && flexMode, 'is-selected' : isSelected}">
         <div class="portrait-container">
             <img :src="`${$axios.defaults.baseURL}${heroPortrait}`" alt="">
         </div>
@@ -24,6 +24,10 @@
         },
         methods: {
             heroClickHandler: function () {
+                if (this.flexModeRole !== this.hero.attributes.role && this.flexMode) {
+                    return
+                }
+
                 if (!this.isSelected) {
                     this.$emit('heroClicked')
                 }
@@ -49,7 +53,7 @@
         }
 
         &:hover {
-            transform: scale(1.3);
+            transform: scale(1.4);
         }
 
         &.role-locked {
