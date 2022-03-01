@@ -31,7 +31,7 @@
                     Choose a map
                 </p>
 
-                <MapSelect :data="maps" @mapSelected="onMapSelected" />
+                <MapSelect :data="maps.data" @mapSelected="onMapSelected" />
             </div>
 
             <div class="field-container">
@@ -47,7 +47,7 @@
                 <Editor @onChange="onEditorChange" />
             </div>
 
-            <button class="t-btn t-btn_primary" :class="{'disabled' : heroesSelection.length !== 6 || !form.name || !form.map}" @click="sendComposition">
+            <button class="t-btn t-btn_primary" :class="{'disabled' : compositionSelection.length !== 6 || !form.name || !form.map}" @click="sendComposition">
                 Save composition
             </button>
 
@@ -75,7 +75,6 @@
         },
         data() {
             return {
-                heroesSelection: [],
                 flexMode: false,
                 flexModeRole: '',
                 flexTarget: null,
@@ -141,8 +140,6 @@
                         this.$store.commit('lockRole', hero.attributes.role)
                     }
 
-
-                    // this.heroesSelection.push(hero)
                     this.$store.commit('addHeroToSelection', hero)
                 }
 
@@ -174,10 +171,10 @@
 
                 let heroesListFormated = []
 
-                this.heroesSelection.forEach( (hero) => {
+                this.compositionSelection.forEach( (hero) => {
                     let obj = {}
                     if (hero.flex) {
-                        obj = {id: hero.id, flex: hero.flex[0].id}
+                        obj = {id: hero.id, flex: hero.flex.id}
                     } else {
                         obj = {id: hero.id, flex: null}
                     }
@@ -185,17 +182,18 @@
                 })
 
                 let formData = {
-                    author: this.$auth.user,
-                    name: this.form.name,
-                    description: this.form.description,
-                    map: this.form.map,
-                    heroes: heroesListFormated,
-                    status: "draft"
+                    data: {
+                        author: this.$auth.user,
+                        name: this.form.name,
+                        description: this.form.description,
+                        map: this.form.map,
+                        heroes: heroesListFormated,
+                        status: "draft"
+                    }
                 }
 
-                this.$axios.post('/compositions',
-                    formData
-                )
+
+                this.$axios.post('/api/compositions', formData)
                     .then( response => {
                         this.success = true
                     })

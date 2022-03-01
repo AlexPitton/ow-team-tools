@@ -29,6 +29,8 @@
             letter-spacing: 0.07em;
         }
 
+        background-color: $c-neutral;
+
         &.draft {
             background-color: $color-orange-peel;
         }

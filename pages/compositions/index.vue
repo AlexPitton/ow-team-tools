@@ -12,6 +12,7 @@
             <div class="u-flex">
                 <div class="filter filter-name u-mr-20">
                     <input type="text" id="filter-name" v-model="filters.name" placeholder="Filter by name">
+                    <svg-icon name="loupe" />
                 </div>
                 <div class="filter filter-status u-mr-20">
                     <select id="filter-status" v-model="filters.status">
@@ -25,7 +26,17 @@
                 <div class="filter filter-map u-mr-20">
                     <select id="filter-map" v-model="filters.map">
                         <option value="">All maps</option>
-                        <option v-for="map in maps" :value="map.name" :key="map.id">{{map.name}}</option>
+                        <option v-for="map in maps.data" :value="map.attributes.name" :key="map.id">{{map.attributes.name}}</option>
+                    </select>
+                </div>
+
+                <div class="filter filter-map u-mr-20">
+                    <select id="filter-map" v-model="filters.mapType">
+                        <option value="">All map types</option>
+                        <option value="Payloads">Payloads</option>
+                        <option value="KOTHs">KOTHs</option>
+                        <option value="Hybrids">Hybrids</option>
+                        <option value="CPs">CPs</option>
                     </select>
                 </div>
 
@@ -39,18 +50,19 @@
         </div>
 
         <div class="compositions-list">
-            <div class="composition u-mb-25" :class="compo.status" v-for="compo in filteredComposition" :key="compo.id">
+            <div class="composition u-mb-25" :class="compo.attributes.status" v-for="compo in filteredComposition" :key="compo.id">
                 <div class="composition-header u-flex u-justify-content-between">
                     <div>
-                        <p class="composition-title font-base">{{compo.name}}</p>
-                        <p class="composition-author font-base" v-if="compo.author.username">Created by <span>{{compo.author.username}}</span></p>
-                        <Tag :label="compo.status" />
+                        <p class="composition-title font-base">{{compo.attributes.name}}</p>
+                        <p class="composition-author font-base">Created by <span>{{compo.attributes.author.data.attributes.username}}</span></p>
+                        <Tag :label="compo.attributes.status" />
+                        <Tag :label="compo.attributes.map.data.attributes.name" />
                     </div>
                     <div>
-                        <img class="compositon-map" :src="`${$axios.defaults.baseURL}${compo.map.miniature.url}`" :alt="compo.map.name">
+                        <img class="compositon-map" :src="`${$axios.defaults.baseURL}${getCompositionMap(compo)}`">
                     </div>
                 </div>
-                <CompositionReadOnly :heroes="compositionHeroes(compo.heroes)" />
+                <CompositionReadOnly :heroes="getCompositionHeroes(compo.attributes.heroes)" />
 
                 <div class="u-flex u-justify-content-end u-mt-20">
                     <button class="t-btn t-btn_primary u-ml-10" @click="goToComposition(compo.id)">
@@ -83,7 +95,9 @@
                 return this.$store.state.users
             },
             filteredComposition() {
-                return this.filterByUser(this.filterByMap(this.filterByName(this.filterByStatus(this.$store.state.compositions))))
+                if (typeof this.$store.state.compositions.data !== 'undefined') {
+                    return this.filterByUser(this.filterByMapType(this.filterByMap(this.filterByName(this.filterByStatus(this.$store.state.compositions.data)))))
+                }
             }
         },
         data() {
@@ -92,6 +106,7 @@
                     name: '',
                     status: '',
                     map: '',
+                    mapType: '',
                     user: ''
                 }
             }
@@ -104,18 +119,21 @@
         methods: {
             ...mapActions(['getAllCompositions', 'getMaps', 'getHeroes', 'getUsers']),
             filterByName(compositions) {
-                return compositions.filter(compo => compo.name.toLowerCase().includes(this.filters.name.toLocaleLowerCase()))
+                return compositions.filter(compo => compo.attributes.name.toLowerCase().includes(this.filters.name.toLocaleLowerCase()))
             },
             filterByStatus(compositions) {
-                return compositions.filter(compo => compo.status.includes(this.filters.status))
+                return compositions.filter(compo => compo.attributes.status.includes(this.filters.status))
             },
             filterByMap(compositions) {
-                return compositions.filter(compo => compo.map.name.toLowerCase().includes(this.filters.map.toLowerCase()))
+                return compositions.filter(compo => compo.attributes.map.data.attributes.name.toLowerCase().includes(this.filters.map.toLowerCase()))
+            },
+            filterByMapType(compositions) {
+                return compositions.filter(compo => compo.attributes.map.data.attributes.type.toLowerCase().includes(this.filters.mapType.toLowerCase()))
             },
             filterByUser(compositions) {
-                return compositions.filter(compo => compo.author.username.toLowerCase().includes(this.filters.user.toLowerCase()))
+                return compositions.filter(compo => compo.attributes.author.data.attributes.username.toLowerCase().includes(this.filters.user.toLowerCase()))
             },
-            compositionHeroes(heroes) {
+            getCompositionHeroes(heroes) {
                 let sortedArray = {tank: [], dps: [], support: []}
 
                 heroes.forEach( (item) => {
@@ -126,10 +144,15 @@
                         hero['flex'] = flex
                     }
 
-                    sortedArray[hero.role].push(hero)
+                    sortedArray[hero.attributes.role].push(hero)
                 })
 
                 return [...sortedArray['tank'], ...sortedArray['dps'], ...sortedArray['support']]
+            },
+            getCompositionMap(composition) {
+                if (typeof this.$store.state.maps.data !== 'undefined') {
+                    return this.$store.state.maps.data.find(map => map.id === composition.attributes.map.data.id).attributes.miniature.data.attributes.url
+                }
             },
             goToComposition(id) {
                 this.$router.push({path: `/compositions/${id}`})
@@ -188,6 +211,10 @@
             .compositon-map {
                 max-width: 100px;
                 border-radius: 3px;
+            }
+
+            .map-name {
+                font-size: 12px;
             }
 
             .button {

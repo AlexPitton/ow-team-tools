@@ -98,31 +98,31 @@ export const actions = {
         commit('setHeroes', data)
     },
     async getUserCompositions ({commit}, username) {
-        let {data} = await this.$axios.get(`/compositions?author.username=${username}`)
+        let {data} = await this.$axios.get(`/api/compositions?filters[author][username][$eq]=${username}&populate=map,author`)
         commit('setUserCompositions', data)
     },
     async countCompositions ({commit}) {
-        let {data} = await this.$axios.get(`/compositions/count`)
+        let {data} = await this.$axios.get(`/api/compositions/count`)
         commit('setCountCompositions', data)
     },
     async getAllCompositions ({commit}) {
-        let {data} = await this.$axios.get(`/compositions?_sort=updated_at:DESC`)
+        let {data} = await this.$axios.get(`/api/compositions?populate=author,map&_sort=updated_at:DESC`)
         commit('setAllCompositions', data)
     },
     async getLastComposition ({commit}) {
-        let {data} = await this.$axios.get(`/compositions?status=published&_sort=updated_at:DESC&_limit=1`)
+        let {data} = await this.$axios.get(`/api/compositions?filters[status][$eq]=published&sort[0]=updatedAt%3Adesc&pagination[limit]=1&populate=*`)
         commit('setLastComposition', data)
     },
     async getPublishedComposition ({commit}) {
-        let {data} = await this.$axios.get(`/compositions?status=published&_sort=updated_at:DESC`)
+        let {data} = await this.$axios.get(`/api/compositions?status=published&_sort=updated_at:DESC`)
         commit('setPublishedComposition', data)
     },
     async getMaps ({commit}) {
-        let {data} = await this.$axios.get(`/api/maps?populate=*`)
-        commit('setMaps', data.data)
+        let {data} = await this.$axios.get(`/api/maps?populate=miniature,plainmap`)
+        commit('setMaps', data)
     },
     async getUsers ({commit}) {
-        let {data} = await this.$axios.get(`/users`)
+        let {data} = await this.$axios.get(`/api/users`)
         commit('setUsers', data)
     }
 }

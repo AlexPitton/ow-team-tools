@@ -5,21 +5,22 @@
         <h2 class="font-title t-white u-mb-15">Last compo published</h2>
 
         <div class="compositions-list u-mb-50">
-            <div class="composition" :class="compo.status" v-for="compo in lastCompoPublished" :key="compo.id">
+            <div class="composition u-mb-25" :class="compo.attributes.status" v-for="compo in lastCompoPublished" :key="compo.id">
                 <div class="composition-header u-flex u-justify-content-between">
                     <div>
-                        <p class="composition-title">{{compo.name}}</p>
-                        <p class="composition-author" v-if="compo.author.username">Created by <span>{{compo.author.username}}</span></p>
-                        <Tag :label="compo.status" />
+                        <p class="composition-title font-base">{{compo.attributes.name}}</p>
+                        <p class="composition-author font-base">Created by <span>{{compo.attributes.author.data.attributes.username}}</span></p>
+                        <Tag :label="compo.attributes.status" />
+                        <Tag :label="compo.attributes.map.data.attributes.name" />
                     </div>
                     <div>
-                        <img class="compositon-map" :src="`${$axios.defaults.baseURL}${compo.map.miniature.url}`" :alt="compo.map.name">
+                        <img class="compositon-map" :src="`${$axios.defaults.baseURL}${getCompositionMap(compo)}`">
                     </div>
                 </div>
-                <CompositionReadOnly :heroes="compositionHeroes(compo.heroes)" />
+                <CompositionReadOnly :heroes="getCompositionHeroes(compo.attributes.heroes)" />
 
-                <div class="u-flex u-mt-20 u-justify-content-end">
-                    <button class="t-btn t-btn_primary u-mr-10" @click="goToComposition(compo.id)">
+                <div class="u-flex u-justify-content-end u-mt-20">
+                    <button class="t-btn t-btn_primary u-ml-10" @click="goToComposition(compo.id)">
                         See details
                     </button>
                 </div>
@@ -69,18 +70,19 @@
         </div>
 
         <div class="compositions-list">
-            <div class="composition u-mb-30" :class="compo.status" v-for="compo in filteredComposition" :key="compo.id">
+            <div class="composition u-mb-30" :class="compo.attributes.status" v-for="compo in filteredComposition" :key="compo.id">
                 <div class="composition-header u-flex u-justify-content-between">
                     <div>
-                        <p class="composition-title">{{compo.name}}</p>
-                        <p class="composition-author" v-if="compo.author.username">Created by <span>{{compo.author.username}}</span></p>
-                        <Tag :label="compo.status" />
+                        <p class="composition-title">{{compo.attributes.name}}</p>
+                        <p class="composition-author">Created by <span>{{compo.attributes.author.data.attributes.username}}</span></p>
+                        <Tag :label="compo.attributes.status" />
+                        <Tag :label="compo.attributes.map.data.attributes.name" />
                     </div>
                     <div>
-                        <img class="compositon-map" :src="`${$axios.defaults.baseURL}${compo.map.miniature.url}`" :alt="compo.map.name">
+                        <img class="compositon-map" :src="`${$axios.defaults.baseURL}${getCompositionMap(compo)}`">
                     </div>
                 </div>
-                <CompositionReadOnly :heroes="compositionHeroes(compo.heroes)" />
+                <CompositionReadOnly :heroes="getCompositionHeroes(compo.attributes.heroes)" />
 
                 <div class="u-flex u-justify-content-end u-mt-20">
                     <button class="t-btn t-btn_primary u-ml-10" @click="updateComposition(compo.id)">
@@ -113,10 +115,14 @@
                 return this.$store.state.maps
             },
             filteredComposition() {
-                return this.filterByMap(this.filterByName(this.filterByStatus(this.$store.state.userCompositions)))
+                if (typeof this.$store.state.userCompositions.data !== 'undefined') {
+                    return this.filterByMap(this.filterByName(this.filterByStatus(this.$store.state.userCompositions.data)))
+                }
             },
             lastCompoPublished() {
-                return this.$store.state.lastComposition
+                if (typeof this.$store.state.lastComposition.data !== 'undefined') {
+                    return this.$store.state.lastComposition.data
+                }
             }
         },
         data() {
@@ -132,7 +138,7 @@
         created() {
             this.getMaps()
             this.getLastComposition()
-            this.$axios.get(`/users/me`)
+            this.$axios.get(`/api/users/me`)
                 .then(response => {
                     this.userData = response.data
                     this.getUserCompositions(this.userData.username)
@@ -141,15 +147,15 @@
         methods: {
             ...mapActions(['getUserCompositions', 'getLastComposition', 'getMaps']),
             filterByName(compositions) {
-                return compositions.filter(compo => compo.name.toLowerCase().includes(this.filters.name.toLocaleLowerCase()))
+                return compositions.filter(compo => compo.attributes.name.toLowerCase().includes(this.filters.name.toLocaleLowerCase()))
             },
             filterByStatus(compositions) {
-                return compositions.filter(compo => compo.status.includes(this.filters.status))
+                return compositions.filter(compo => compo.attributes.status.includes(this.filters.status))
             },
             filterByMap(compositions) {
-                return compositions.filter(compo => compo.map.name.toLowerCase().includes(this.filters.map.toLowerCase()))
+                return compositions.filter(compo => compo.attributes.map.data.attributes.name.toLowerCase().includes(this.filters.map.toLowerCase()))
             },
-            compositionHeroes(heroes) {
+            getCompositionHeroes(heroes) {
                 let sortedArray = {tank: [], dps: [], support: []}
 
                 heroes.forEach( (item) => {
@@ -160,10 +166,15 @@
                         hero['flex'] = flex
                     }
 
-                    sortedArray[hero.role].push(hero)
+                    sortedArray[hero.attributes.role].push(hero)
                 })
 
                 return [...sortedArray['tank'], ...sortedArray['dps'], ...sortedArray['support']]
+            },
+            getCompositionMap(composition) {
+                if (typeof this.$store.state.maps.data !== 'undefined') {
+                    return this.$store.state.maps.data.find(map => map.id === composition.attributes.map.data.id).attributes.miniature.data.attributes.url
+                }
             },
             goToComposition(id) {
                 this.$router.push({path: `/compositions/${id}`})

@@ -6,11 +6,11 @@
             :key="hero.id"
         >
             <div class="portrait-container">
-                <img :src="`${$axios.defaults.baseURL}${hero.portrait.formats.thumbnail.url}`">
+                <img :src="`${$axios.defaults.baseURL}${hero.attributes.portrait.data.attributes.url}`">
             </div>
             <div v-if="hero.flex" class="flex-heroes">
                 <div>
-                    <img :src="`${$axios.defaults.baseURL}${hero.flex.portrait.formats.thumbnail.url}`">
+                    <img :src="`${$axios.defaults.baseURL}${hero.flex.attributes.portrait.data.attributes.url}`">
                 </div>
             </div>
         </div>
