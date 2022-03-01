@@ -118,8 +118,8 @@ export const actions = {
         commit('setPublishedComposition', data)
     },
     async getMaps ({commit}) {
-        let {data} = await this.$axios.get(`/maps`)
-        commit('setMaps', data)
+        let {data} = await this.$axios.get(`/api/maps?populate=*`)
+        commit('setMaps', data.data)
     },
     async getUsers ({commit}) {
         let {data} = await this.$axios.get(`/users`)

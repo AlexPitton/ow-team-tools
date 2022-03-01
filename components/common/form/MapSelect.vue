@@ -2,7 +2,7 @@
     <div class="map-custom-select">
         <div class="selected" @click="open = !open">
             <div v-if="selected">
-                <img :src="`${$axios.defaults.baseURL}${selected.miniature.url}`">
+                <img :src="`${$axios.defaults.baseURL}${selected.attributes.miniature.data.attributes.url}`">
                 <span>{{ selected.name }}</span>
             </div>
             <div v-else>
@@ -17,8 +17,8 @@
                     <span class="map-name">None</span>
                 </li>
                 <li class="item" v-for="map in data" :key="map.id" @click=onChange(map)>
-                    <img :src="`${$axios.defaults.baseURL}${map.miniature.url}`" :alt="map.name">
-                    <span class="map-name">{{ map.name }}</span>
+                    <img :src="`${$axios.defaults.baseURL}${map.attributes.miniature.data.attributes.url}`" :alt="map.name">
+                    <span class="map-name">{{ map.attributes.name }}</span>
                 </li>
             </ul>
         </div>
@@ -28,7 +28,7 @@
 <script>
     export default {
         props: {
-            data: Array
+            data: []
         },
         data() {
             return {
