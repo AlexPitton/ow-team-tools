@@ -65,8 +65,8 @@ export const mutations = {
         state.users = users
     },
     deleteUserComposition(state, userComposition) {
-        let index = state.userCompositions.findIndex( c => c.id === userComposition.id)
-        state.userCompositions.splice(index, 1)
+        let index = state.userCompositions.data.findIndex( c => c.id === userComposition.id)
+        state.userCompositions.data.splice(index, 1)
     },
     // CLIENT
     addHeroToSelection(state, hero) {

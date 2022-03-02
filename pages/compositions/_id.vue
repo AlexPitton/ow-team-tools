@@ -2,17 +2,17 @@
     <div class="page single-composition">
 
         <h1 class="font-title-bold t-white u-mb-90">
-            {{composition.name}}
+            {{composition.data.attributes.name}}
         </h1>
 
         <div class="u-flex u-justify-content-center u-mb-50">
             <div class="composition">
-                <CompositionReadOnly :heroes="compositionHeroes(composition.heroes)" />
+                <CompositionReadOnly :heroes="compositionHeroes(composition.data.attributes.heroes)" />
             </div>
         </div>
 
 
-        <div class="description-container" v-html="composition.description"></div>
+        <div class="description-container" v-html="composition.data.attributes.description"></div>
     </div>
 </template>
 
@@ -32,11 +32,12 @@
             }
         },
         async asyncData({params, $axios}) {
-            const composition = await $axios.$get(`/compositions/${params.id}`)
+            const composition = await $axios.$get(`/api/compositions/${params.id}`)
             return {composition}
         },
         methods: {
             compositionHeroes(heroes) {
+
                 let sortedArray = {tank: [], dps: [], support: []}
 
                 heroes.forEach( (item) => {
@@ -47,7 +48,7 @@
                         hero['flex'] = flex
                     }
 
-                    sortedArray[hero.role].push(hero)
+                    sortedArray[hero.attributes.role].push(hero)
                 })
 
                 return [...sortedArray['tank'], ...sortedArray['dps'],...sortedArray['support']]

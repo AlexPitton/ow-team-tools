@@ -70,7 +70,7 @@
         </div>
 
         <div class="compositions-list">
-            <div class="composition u-mb-30" :class="compo.attributes.status" v-for="compo in filteredComposition" :key="compo.id">
+            <div class="composition u-mb-30" :class="compo.attributes.status" v-for="compo in userFilteredComposition" :key="compo.id">
                 <div class="composition-header u-flex u-justify-content-between">
                     <div>
                         <p class="composition-title">{{compo.attributes.name}}</p>
@@ -114,7 +114,7 @@
             maps() {
                 return this.$store.state.maps
             },
-            filteredComposition() {
+            userFilteredComposition() {
                 if (typeof this.$store.state.userCompositions.data !== 'undefined') {
                     return this.filterByMap(this.filterByName(this.filterByStatus(this.$store.state.userCompositions.data)))
                 }
@@ -184,7 +184,7 @@
             },
             deleteComposition(id) {
                 this.$axios
-                    .delete(`/compositions/${id}`)
+                    .delete(`/api/compositions/${id}`)
                     .then( response => {
                         this.$store.commit('deleteUserComposition', id)
                     })
