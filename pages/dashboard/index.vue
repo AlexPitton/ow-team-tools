@@ -1,11 +1,11 @@
 <template>
     <div class="page dashboard">
-        <h1 class="font-title-bold t-white u-mb-90">Hello <span class="t-outline">{{$auth.user.username}}</span></h1>
+        <h1 class="font-title-bold t-white u-mb90">Hello <span class="t-outline">{{$auth.user.username}}</span></h1>
 
-        <h2 class="font-title t-white u-mb-15">Last compo published</h2>
+        <h2 class="font-title t-white u-mb15">Last compo published</h2>
 
-        <div class="compositions-list u-mb-50">
-            <div class="composition u-mb-25" :class="compo.attributes.status" v-for="compo in lastCompoPublished" :key="compo.id">
+        <div class="compositions-list u-mb50">
+            <div class="composition u-mb25" :class="compo.attributes.status" v-for="compo in lastCompoPublished" :key="compo.id">
                 <div class="composition-header u-flex u-justify-content-between">
                     <div>
                         <p class="composition-title font-base">{{compo.attributes.name}}</p>
@@ -19,8 +19,8 @@
                 </div>
                 <CompositionReadOnly :heroes="getCompositionHeroes(compo.attributes.heroes)" />
 
-                <div class="u-flex u-justify-content-end u-mt-20">
-                    <button class="t-btn t-btn_primary u-ml-10" @click="goToComposition(compo.id)">
+                <div class="u-flex u-justify-content-end u-mt20">
+                    <button class="t-btn t-btn_primary u-ml10" @click="goToComposition(compo.id)">
                         See details
                     </button>
                 </div>
@@ -36,20 +36,20 @@
             <!--</div>-->
         <!--</div>-->
 
-        <h2 class="font-title t-white u-mb-15">My compositions</h2>
+        <h2 class="font-title t-white u-mb15">My compositions</h2>
 
-        <div class="composition-filters u-flex u-align-items-center u-mb-30">
-            <div class="u-mr-30">
+        <div class="composition-filters u-flex u-align-items-center u-mb30">
+            <div class="u-mr30">
                 <p class="font-mono">Sort by</p>
             </div>
 
             <div class="u-flex u-align-items-center">
-                <div class="filter filter-name u-mr-20">
+                <div class="filter filter-name u-mr20">
                     <input class="font-mono" type="text" id="filter-name" v-model="filters.name" placeholder="Name">
                     <svg-icon name="loupe" />
                 </div>
 
-                <div class="filter filter-status u-mr-20">
+                <div class="filter filter-status u-mr20">
                     <select id="filter-status" v-model="filters.status">
                         <option value="">All status</option>
                         <option value="draft">Draft</option>
@@ -59,7 +59,7 @@
                     <svg-icon name="chevron-down" />
                 </div>
 
-                <div class="filter filter-map u-mr-20">
+                <div class="filter filter-map u-mr20">
                     <select id="filter-map" v-model="filters.map">
                         <option value="">All maps</option>
                         <option v-for="map in maps" :value="map.name" :key="map.id">{{map.name}}</option>
@@ -70,7 +70,7 @@
         </div>
 
         <div class="compositions-list">
-            <div class="composition u-mb-30" :class="compo.attributes.status" v-for="compo in userFilteredComposition" :key="compo.id">
+            <div class="composition u-mb30" :class="compo.attributes.status" v-for="compo in userFilteredComposition" :key="compo.id">
                 <div class="composition-header u-flex u-justify-content-between">
                     <div>
                         <p class="composition-title">{{compo.attributes.name}}</p>
@@ -84,11 +84,11 @@
                 </div>
                 <CompositionReadOnly :heroes="getCompositionHeroes(compo.attributes.heroes)" />
 
-                <div class="u-flex u-justify-content-end u-mt-20">
-                    <button class="t-btn t-btn_primary u-ml-10" @click="updateComposition(compo.id)">
+                <div class="u-flex u-justify-content-end u-mt20">
+                    <button class="t-btn t-btn_primary u-ml10" @click="updateComposition(compo.id)">
                         Update
                     </button>
-                    <button class="t-btn t-btn_primary u-ml-10" @click="deleteComposition(compo.id)">
+                    <button class="t-btn t-btn_primary u-ml10" @click="deleteComposition(compo.id)">
                         Delete
                     </button>
                 </div>

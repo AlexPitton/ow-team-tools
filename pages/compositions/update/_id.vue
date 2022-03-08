@@ -1,11 +1,11 @@
 <template>
     <div class="page single-composition">
 
-        <h1 class="font-title-bold t-white u-mb-90">
+        <h1 class="font-title-bold t-white u-mb90">
             {{composition.name}}
         </h1>
 
-        <div class="u-flex u-justify-content-center u-mb-50">
+        <div class="u-flex u-justify-content-center u-mb50">
             <div class="composition">
                 <CompositionReadOnly :heroes="compositionHeroes(composition.heroes)" />
             </div>
@@ -13,7 +13,7 @@
 
         <Editor :data="composition.description" @onChange="onEditorChange" />
 
-        <button class="t-btn t-btn_primary u-mt-30" @click="updateComposition(composition.id)">
+        <button class="t-btn t-btn_primary u-mt30" @click="updateComposition(composition.id)">
             Update composition
         </button>
 

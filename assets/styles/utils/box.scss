@@ -50,14 +50,14 @@ $sizez: 5, 10, 15, 20, 25, 30, 50, 90;
     .u-m#{$size} {margin: #{$size}px;}
     .u-p#{$size} {padding: #{$size}px;}
 
-    .u-mt-#{$size} {margin-top: #{$size}px;}
-    .u-mr-#{$size} {margin-right: #{$size}px;}
-    .u-mb-#{$size} {margin-bottom: #{$size}px;}
-    .u-ml-#{$size} {margin-left: #{$size}px;}
+    .u-mt#{$size} {margin-top: #{$size}px;}
+    .u-mr#{$size} {margin-right: #{$size}px;}
+    .u-mb#{$size} {margin-bottom: #{$size}px;}
+    .u-ml#{$size} {margin-left: #{$size}px;}
 
-    .u-pt-#{$size} {padding-top: #{$size}px;}
-    .u-pr-#{$size} {padding-right: #{$size}px;}
-    .u-pb-#{$size} {padding-bottom: #{$size}px;}
-    .u-pl-#{$size} {padding-left: #{$size}px;}
+    .u-pt#{$size} {padding-top: #{$size}px;}
+    .u-pr#{$size} {padding-right: #{$size}px;}
+    .u-pb#{$size} {padding-bottom: #{$size}px;}
+    .u-pl#{$size} {padding-left: #{$size}px;}
 }
 

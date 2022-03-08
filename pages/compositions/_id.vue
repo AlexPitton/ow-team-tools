@@ -1,11 +1,11 @@
 <template>
     <div class="page single-composition">
 
-        <h1 class="font-title-bold t-white u-mb-90">
+        <h1 class="font-title-bold t-white u-mb90">
             {{composition.data.attributes.name}}
         </h1>
 
-        <div class="u-flex u-justify-content-center u-mb-50">
+        <div class="u-flex u-justify-content-center u-mb50">
             <div class="composition">
                 <CompositionReadOnly :heroes="compositionHeroes(composition.data.attributes.heroes)" />
             </div>

@@ -26,16 +26,11 @@
                             <svg-icon name="lock" />
                         </span>
                     </div>
+                    <p v-show="error" class="t-error">Invalid credentials.</p>
                     <button type="submit" class="t-btn t-btn_full t-c_white t-bck_tonic">
                         Log in
                     </button>
                 </form>
-
-                <!--<div class="">-->
-                    <!--<button class="t-btn t-btn_full t-c_plighter t-bck_white">-->
-                        <!--Create account-->
-                    <!--</button>-->
-                <!--</div>-->
             </div>
         </div>
 
@@ -65,7 +60,6 @@
                             password: this.password
                         }
                     })
-
                 } catch (error) {
                     this.error = error
                 }

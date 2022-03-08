@@ -37,6 +37,15 @@
                         <p class="font-base fw-semibold">Planning</p>
                     </NuxtLink>
                 </div>
+
+                <div class="nav-item">
+                    <NuxtLink class="u-flex u-align-items-center" to="/replays">
+                        <div class="menu-icon">
+                            <svg-icon name="calendar" />
+                        </div>
+                        <p class="font-base fw-semibold">Replays</p>
+                    </NuxtLink>
+                </div>
             </div>
 
             <div class="nav bottom-nav">

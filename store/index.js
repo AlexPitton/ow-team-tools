@@ -12,6 +12,8 @@ export const state = () => ({
     maps: [],
     users: [],
     countCompositions: null,
+    weekDates: [],
+    weekSessions: [],
     // CLIENT
     heroesSelection: [],
     lockedRole: []
@@ -67,6 +69,12 @@ export const mutations = {
     deleteUserComposition(state, userComposition) {
         let index = state.userCompositions.data.findIndex( c => c.id === userComposition.id)
         state.userCompositions.data.splice(index, 1)
+    },
+    setWeekDates(state, dates) {
+        state.weekDates = dates
+    },
+    setWeekSessions(state, sessions) {
+        state.weekSessions = sessions
     },
     // CLIENT
     addHeroToSelection(state, hero) {
@@ -124,6 +132,11 @@ export const actions = {
     async getUsers ({commit}) {
         let {data} = await this.$axios.get(`/api/users`)
         commit('setUsers', data)
+    },
+    async getWeekSessions ({commit}, week) {
+        let {data} = await this.$axios.get(`/api/sessions?filters[date][$between]=${week[0]}&filters[date][$between]=${week[6]}&populate=*`)
+        commit('setWeekSessions', data)
+        commit('setWeekDates', week)
     }
 }
 

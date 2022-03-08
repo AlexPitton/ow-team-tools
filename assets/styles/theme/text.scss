@@ -2,10 +2,12 @@
 .font-title {
     font-family: $font-title;
     font-weight: normal;
+    letter-spacing: 0.04em;
 }
 .font-title-bold {
     font-family: $font-title;
     font-weight: bold;
+    letter-spacing: 0.04em;
 }
 .font-mono {
     font-family: $font-mono;
@@ -50,3 +52,6 @@ h2 {
 .t-align-l {text-align: left;}
 .t-align-c {text-align: center;}
 .t-align-j {text-align: justify;}
+
+// States
+.t-error {color: $c-error;}

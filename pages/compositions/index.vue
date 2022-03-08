@@ -1,20 +1,20 @@
 <template>
     <div class="page">
-        <h1 class="font-title u-mb-90">
+        <h1 class="font-title u-mb90">
             Your team's compositions
         </h1>
 
-        <div class="composition-filters font-mono u-flex u-align-items-center u-mb-30">
-            <div class="u-mr-30">
+        <div class="composition-filters font-mono u-flex u-align-items-center u-mb30">
+            <div class="u-mr30">
                 <p class="font-mono">Sort by</p>
             </div>
 
             <div class="u-flex">
-                <div class="filter filter-name u-mr-20">
+                <div class="filter filter-name u-mr20">
                     <input type="text" id="filter-name" v-model="filters.name" placeholder="Filter by name">
                     <svg-icon name="loupe" />
                 </div>
-                <div class="filter filter-status u-mr-20">
+                <div class="filter filter-status u-mr20">
                     <select id="filter-status" v-model="filters.status">
                         <option value="">All status</option>
                         <option value="draft">Draft</option>
@@ -23,14 +23,14 @@
                     </select>
                 </div>
 
-                <div class="filter filter-map u-mr-20">
+                <div class="filter filter-map u-mr20">
                     <select id="filter-map" v-model="filters.map">
                         <option value="">All maps</option>
                         <option v-for="map in maps.data" :value="map.attributes.name" :key="map.id">{{map.attributes.name}}</option>
                     </select>
                 </div>
 
-                <div class="filter filter-map u-mr-20">
+                <div class="filter filter-map u-mr20">
                     <select id="filter-map" v-model="filters.mapType">
                         <option value="">All map types</option>
                         <option value="Payloads">Payloads</option>
@@ -50,7 +50,7 @@
         </div>
 
         <div class="compositions-list">
-            <div class="composition u-mb-25" :class="compo.attributes.status" v-for="compo in filteredComposition" :key="compo.id">
+            <div class="composition u-mb25" :class="compo.attributes.status" v-for="compo in filteredComposition" :key="compo.id">
                 <div class="composition-header u-flex u-justify-content-between">
                     <div>
                         <p class="composition-title font-base">{{compo.attributes.name}}</p>
@@ -64,8 +64,8 @@
                 </div>
                 <CompositionReadOnly :heroes="getCompositionHeroes(compo.attributes.heroes)" />
 
-                <div class="u-flex u-justify-content-end u-mt-20">
-                    <button class="t-btn t-btn_primary u-ml-10" @click="goToComposition(compo.id)">
+                <div class="u-flex u-justify-content-end u-mt20">
+                    <button class="t-btn t-btn_primary u-ml10" @click="goToComposition(compo.id)">
                         See details
                     </button>
                 </div>
