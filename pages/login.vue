@@ -35,7 +35,7 @@
         </div>
 
         <div class="art-splashscreen">
-            <img src="https://images.eurogamer.net/2015/articles//a/1/8/4/3/7/0/3/ana_amari_by_re_dye_daa7lhd.jpg.jpg/EG11/resize/690x-1/quality/75/format/jpg" alt="">
+
         </div>
 
     </div>

@@ -1,17 +1,19 @@
 <template>
-    <div class="composition-wrapper">
+    <div class="composition-wrapper u-relative">
         <div class="empty-decorator">
-            <div v-for="n in 6" :key="n" class="empty-slot"></div>
+            <div v-for="n in maxHeroes" :key="n" class="empty-slot"></div>
         </div>
 
 
-        <HeroSelected
-            v-for="(hero, index) in heroesFilteredByRole"
-            :hero="hero"
-            @activeFlexMode="flexModeRequested(hero)"
-            :key="hero.id"
-            ref="heroesRefs"
-        />
+        <div class="heroes-selected-container">
+            <HeroSelected
+                v-for="(hero, index) in heroesFilteredByRole"
+                :hero="hero"
+                @activeFlexMode="flexModeRequested(hero)"
+                :key="hero.id"
+                ref="heroesRefs"
+            />
+        </div>
 
     </div>
 </template>
@@ -35,6 +37,9 @@
                 })
 
                 return [...sortedArray['tank'], ...sortedArray['dps'],...sortedArray['support']]
+            },
+            maxHeroes: function () {
+                return this.$store.state.maxHeroes
             }
         },
         methods: {
@@ -53,22 +58,11 @@
 <style lang="scss" scoped>
 
     .composition-wrapper {
-        position: relative;
-        max-width: 620px;
-        min-height: 180px;
-        display: flex;
-        justify-content: flex-start;
-
-        .heroes-list-wrapper {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
 
         .hero {
             width: 100%;
             max-width: 90px;
-            margin-right: 4px;
+            margin-right: 6px;
 
             img {
                 background-color: red!important;
@@ -78,23 +72,27 @@
                 margin-right: 0;
             }
         }
+
+        .heroes-selected-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+        }
     }
 
     .empty-decorator {
         width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
 
         .empty-slot {
             display: inline-block;
             vertical-align: top;
             width: 100%;
             max-width: 90px;
-            margin-right: 4px;
+            margin-right: 6px;
             border-radius: 3px;
-            background-color: gainsboro;
-            @include aspect-ratio(7,12);
+            background-color: $c-primary-lighter;
+            @include aspect-ratio(1,1);
 
             &:last-child {
                 margin-right: 0;

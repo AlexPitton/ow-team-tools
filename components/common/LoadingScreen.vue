@@ -74,7 +74,7 @@
         }
 
         svg {
-            width: 300px;
+            width: 15vw;
             fill: $c-white;
 
             path {

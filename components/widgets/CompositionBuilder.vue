@@ -1,11 +1,15 @@
 <template>
     <div class="composition-builder" :class="{'show-error' : send}">
 
-        <h1 class="main-title">
+        <h1 class="font-title-bold u-mb50">
             Composition builder
         </h1>
 
-        <div class="heroes-list-container">
+        <h2 class="font-title u-mb50">
+            Heroes
+        </h2>
+
+        <div class="heroes-list-container u-mb50">
             <HeroesList
                 @heroSelected="setHero"
                 :heroes="heroes"
@@ -15,7 +19,9 @@
             />
         </div>
 
-        <div class="composition-container">
+        <input class="composition-name font-title t-white u-mb20" type="text" name="title" id="title" v-model="form.name" :class="{hasvalue : form.name}" required placeholder="Composition name*">
+
+        <div class="composition-container u-mb25">
             <Composition
                 :heroes="compositionSelection"
                 :valid="compositionSelection >= $store.state.maxHeroes"
@@ -24,37 +30,29 @@
             />
         </div>
 
-        <div class="form-container">
-
-            <div class="map-selector">
-                <p class="sub-title">
-                    Choose a map
-                </p>
-
-                <MapSelect :data="maps.data" @mapSelected="onMapSelected" />
-            </div>
-
-            <div class="field-container">
-                <input type="text" name="title" id="title" v-model="form.name" :class="{hasvalue : form.name}" required>
-                <label class="label" for="title">Name your composition</label>
-            </div>
-
-            <div class="editor-container">
-                <p>Add more details</p>
-                <p class="hint">
-                    A good composition is a composition that makes sense! So don't hesitate to explain here the strong points, the weak points, the victory conditions, the ultimate rotations...
-                </p>
-                <Editor @onChange="onEditorChange" />
-            </div>
-
-            <button class="t-btn t-btn_primary" :class="{'disabled' : compositionSelection.length !== 6 || !form.name || !form.map}" @click="sendComposition">
-                Save composition
-            </button>
-
-            <p class="message success" v-if="success">Your composition have been successfully saved !</p>
-            <p class="message error" v-if="error">Oops something went wrong on API side, please contact your administrator.</p>
+        <div class="map-selector u-mb30">
+            <h2 class="font-title u-mb10">
+                Choose a map*
+            </h2>
+            <MapSelect :data="maps.data" @mapSelected="onMapSelected" />
         </div>
 
+        <div class="editor-container u-mb30">
+            <h2 class="font-title u-mb10">
+                How to play
+            </h2>
+            <p class="hint">
+                A good composition is a composition that makes sense! So don't hesitate to explain here the strong points, the weak points, the victory conditions, the ultimate rotations...
+            </p>
+            <Editor @onChange="onEditorChange" />
+        </div>
+
+        <button class="t-btn t-btn_primary" :disabled="compositionSelection.length !== maxHeroes || !form.name || !form.map" :class="{'disabled' : compositionSelection.length !== maxHeroes || !form.name || !form.map}" @click="sendComposition">
+            Save composition
+        </button>
+
+        <p class="message success" v-if="success">Your composition have been successfully saved !</p>
+        <p class="message error" v-if="error">Oops something went wrong ! Make sure that all fields are correct.</p>
     </div>
 </template>
 
@@ -101,6 +99,9 @@
             },
             lockedRole: function () {
                 return this.$store.state.lockedRole
+            },
+            maxHeroes: function () {
+                return this.$store.state.maxHeroes
             }
         },
         mounted() {
@@ -122,7 +123,6 @@
 
                 // Check if flexMode is active
                 if (this.flexMode) {
-                    // this.compositionSelection.find( obj => {return obj === this.flexTarget})['flex'] = [hero]
 
                     this.$store.commit('addFlexHero', {flexTarget: this.flexTarget, hero: hero})
                     this.flexMode = !this.flexMode
@@ -136,7 +136,7 @@
                     }
 
                     // Only 2 of each role, check if role exist, if so add that role in lockedRole
-                    if (this.compositionSelection.find(item => item.attributes.role === hero.attributes.role)) {
+                    if (this.compositionSelection.find(item => item.attributes.role === hero.attributes.role) || hero.attributes.role === 'tank') {
                         this.$store.commit('lockRole', hero.attributes.role)
                     }
 
@@ -196,12 +196,15 @@
                 this.$axios.post('/api/compositions', formData)
                     .then( response => {
                         this.success = true
+
+                        setTimeout( () => {
+                            this.$router.push({path: `/compositions/${response.data.data.id}`})
+                        }, 1000)
                     })
                     .catch(error => {
                         this.error = true
                         this.errorMessage = error
                     })
-
             }
         }
     }
@@ -211,13 +214,11 @@
 
     .composition-builder {
 
-        .heroes-list-container {
-            margin-top: 30px;
-            margin-bottom: 50px;
+        .composition-name {
+            font-size: 22px;
         }
 
         .editor-container {
-            margin-bottom: 25px;
 
             & > p {
                 font-size: 18px;
@@ -226,8 +227,8 @@
 
                 &.hint {
                     font-size: 12px;
+                    line-height: 1.2;
                     font-style: italic;
-                    font-weight: bold;
                     max-width: 450px;
                 }
             }

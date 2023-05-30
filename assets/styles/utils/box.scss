@@ -18,6 +18,7 @@ DISPLAY FLEX
 */
 
 .u-flex {display: flex;}
+.u-flex-wrap {flex-wrap: wrap;}
 
 .u-flex-direction-reverse {flex-direction: row-reverse;}
 .u-flex-direction-column {flex-direction: column;}
@@ -34,6 +35,7 @@ DISPLAY FLEX
 .u-align-self-baseline {align-self: baseline;}
 
 // Justify
+.u-justify-content-start {justify-content: flex-start;}
 .u-justify-content-end {justify-content: flex-end;}
 .u-justify-content-center {justify-content: center;}
 .u-justify-content-between {justify-content: space-between;}
@@ -59,5 +61,20 @@ $sizez: 5, 10, 15, 20, 25, 30, 50, 90;
     .u-pr#{$size} {padding-right: #{$size}px;}
     .u-pb#{$size} {padding-bottom: #{$size}px;}
     .u-pl#{$size} {padding-left: #{$size}px;}
+}
+
+//$columnSizes: 10, 20, 30, 40, 50, 60, 70, 80, 90, 100;
+//
+//@each $columnSize in $columnSizes {
+//    .u-w#{$columnSize} {width: #{$columnSize}%;}
+//    .u-h#{$columnSize} {height: #{$columnSize}%;}
+//}
+
+@for $i from 1 through 10 {
+    .u-w#{$i}0 {width: #{$i}0%;}
+    .u-h#{$i}0 {height: #{$i}0%;}
+
+    .u-vw#{$i}0 {width: #{$i}0vw;}
+    .u-vh#{$i}0 {height: #{$i}0vh;}
 }
 

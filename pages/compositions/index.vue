@@ -177,7 +177,6 @@
             padding: 25px;
             background-color: rgba(255,255,255, 0.1);
             border-radius: 5px;
-            width: 50%;
 
             &.draft {border-color: $c-tonic;}
             &.published {border-color: $color-emerald;}

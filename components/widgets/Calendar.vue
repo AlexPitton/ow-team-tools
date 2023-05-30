@@ -1,24 +1,36 @@
 <template>
     <div class="calendar" :class="mode">
-        <p class="font-title t-uppercase u-mb20">Calendar</p>
         <div class="week">
             <div
                 v-for="(entry, n) in weekPlans"
                 class="cell u-relative u-p15 font-mono"
                 :class="{'scrim' : entry.session && entry.session.attributes.type === 'scrim', 'match' : entry.session && entry.session.attributes.type === 'match', 'is-today' : entry.day === today}"
+                @click="onCellClicked()"
                 :key="entry.day"
             >
                 <p class="day u-mb10">{{ days[n] }} {{ getDate(entry.day) }} {{ getMonth(entry.day) }}</p>
-                <div class="informations t-uppercase" v-if="entry.session">
-                    <p class="u-mb5">
+                <div class="event" v-if="entry.session">
+                    <p class="u-mb5 t-uppercase">
                         {{entry.session.attributes.hour}}
                     </p>
-                    <p>
+                    <p class="t-uppercase">
                         <strong class="fw-bold">{{entry.session.attributes.type}}</strong>
                         VS
                         <strong v-if="entry.session.attributes.opponent" class="fw-bold">{{entry.session.attributes.opponent}}</strong>
                         <strong v-else class="fw-bold">TBD</strong>
                     </p>
+                    <div v-if="mode !== 'aside'">
+                        <div class="u-mt10">
+                            <CopyTag v-if="entry.session.attributes.btag" :label="entry.session.attributes.btag" />
+                        </div>
+                        <div v-if="entry.session.attributes.information" class="informations u-mt30">
+                            <p class="informations-title t-uppercase u-mb5">Infos :</p>
+                            <div v-html="entry.session.attributes.information"></div>
+                        </div>
+                    </div>
+                    <div v-else class="see-more">
+                        <svg-icon name="loupe" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -27,8 +39,9 @@
 
 <script>
 import Tag from "../common/ui/Tag";
+import CopyTag from "../common/ui/CopyTag";
 export default {
-    components: {Tag},
+    components: {CopyTag, Tag},
     props: {
         mode: String,
         sessions: Object,
@@ -62,8 +75,6 @@ export default {
             if (day.length < 2)
                 day = '0' + day
 
-            console.log([year, month, day].join('-'))
-
             return [year, month, day].join('-')
         }
     },
@@ -79,6 +90,11 @@ export default {
         },
         getMonth(date) {
             return this.month[new Date(date).getMonth()]
+        },
+        onCellClicked() {
+            if (this.mode === 'aside') {
+                this.$router.push('/planning')
+            }
         }
     }
 }
@@ -86,18 +102,10 @@ export default {
 
 <style lang="scss">
 .calendar {
-    overflow: hidden;
-    border-radius: 4px;
-
-    &.aside {
-
-        .cell {
-            height: 140px;
-        }
-    }
 
     .week {
-        min-height: 500px;
+        border-radius: 4px;
+        overflow: hidden;
     }
 
     .cell {
@@ -105,6 +113,11 @@ export default {
         width: 100%;
         border-bottom: 1px solid $c-primary-lighter;
         color: $c-primary-lighter;
+        transition: background-color 250ms $easeInOutSine;
+
+        &.scrim, &.match, &.vod {
+            cursor: pointer;
+        }
 
         &::before {
             content: '';
@@ -120,14 +133,22 @@ export default {
             background-color: #3373B9;
             color: $c-white;
 
+            &:hover {
+                background-color: saturate(#3373B9, 15%);
+            }
+
             &::before {
                 background-color: #0688FF;
             }
         }
 
         &.match {
-            background-color: #FFAC18;
+            background-color: desaturate(#FFAC18, 15%);
             color: $c-white;
+
+            &:hover {
+                background-color: #FFAC18;
+            }
 
             &::before {
                 background-color: #FFC700;
@@ -157,15 +178,95 @@ export default {
             line-height: 1;
         }
 
-        .informations {
+        .event {
             font-size: 14px;
             line-height: 1.3;
             letter-spacing: 0.04em;
+
+            .informations {
+
+                ul {
+                    list-style-type: disc;
+                    padding-left: 13px;
+                }
+            }
+
+            .informations-title {
+                font-size: 12px;
+                letter-spacing: normal;
+                font-weight: 700;
+            }
         }
 
         &:last-child {
             border-bottom: none;
         }
     }
+
+    &.aside {
+        .week {
+            display: flex;
+            flex-direction: column;
+
+            .cell {
+                min-height: 10vh;
+
+                &:hover {
+                    .see-more {
+                        transform: scale(1.2);
+                    }
+                }
+
+                .see-more {
+                    position: absolute;
+                    bottom: 10px;
+                    right: 15px;
+                    transition: 500ms cubic-bezier(0.89,-0.5, 0.21, 1.77);
+
+                    svg {
+                        width: 15px;
+                        height: 15px;
+                        fill: $c-white;
+                    }
+                }
+            }
+        }
+    }
+
+    &.full {
+        width: 100%;
+
+        .week {
+            display: flex;
+            width: 100%;
+            min-height: 400px;
+
+            .cell {
+                border-bottom: none;
+                border-right: 1px solid $c-primary-lighter;
+
+                .event {
+                    font-size: 12px;
+                }
+
+                &:last-child {
+                    border-right: none;
+                }
+
+                &::before {
+                    width: 100%;
+                    height: 7px;
+                }
+
+                &.is-today {
+
+                    &::after {
+                        top: 15px;
+                    }
+                }
+            }
+        }
+    }
+
 }
 </style>

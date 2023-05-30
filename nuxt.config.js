@@ -32,7 +32,8 @@ export default {
 
     // Modules for dev and build recommended
     buildModules: [
-        '@nuxtjs/svg-sprite'
+        '@nuxtjs/svg-sprite',
+        ['nuxt-animejs']
     ],
 
     svgSprite: {

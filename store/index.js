@@ -2,7 +2,7 @@ export const state = () => ({
     // CONF
     isTouchEnabled: null,
     isPortrait: null,
-    maxHeroes: 6,
+    maxHeroes: 5,
     // API
     heroes: [],
     compositions: [],
@@ -55,6 +55,7 @@ export const mutations = {
         state.publishedComposition = compositions
     },
     setLastComposition(state, composition) {
+        console.log(composition)
         state.lastComposition = composition
     },
     setUserCompositions(state, compositions) {
@@ -130,12 +131,23 @@ export const actions = {
         commit('setMaps', data)
     },
     async getUsers ({commit}) {
-        let {data} = await this.$axios.get(`/api/users`)
+        let {data} = await this.$axios.get(`/api/users?populate[0]=infos`)
         commit('setUsers', data)
     },
+    async getDashboard ({commit}, week) {
+        const sessions = await this.$axios.get(`/api/sessions?filters[date][$between]=${week[0]}&filters[date][$between]=${week[6]}&populate=*`)
+        const maps = await this.$axios.get(`/api/maps?populate=miniature,plainmap`)
+        const compositions = await this.$axios.get(`/api/compositions?filters[status][$eq]=published&sort[0]=updatedAt%3Adesc&pagination[limit]=1&populate=*`)
+
+        commit('setLastComposition', compositions.data)
+        commit('setMaps', maps.data)
+        commit('setWeekSessions', sessions.data)
+        commit('setWeekDates', week)
+    },
     async getWeekSessions ({commit}, week) {
-        let {data} = await this.$axios.get(`/api/sessions?filters[date][$between]=${week[0]}&filters[date][$between]=${week[6]}&populate=*`)
-        commit('setWeekSessions', data)
+        const sessions = await this.$axios.get(`/api/sessions?filters[date][$between]=${week[0]}&filters[date][$between]=${week[6]}&populate=*`)
+
+        commit('setWeekSessions', sessions.data)
         commit('setWeekDates', week)
     }
 }

@@ -3,7 +3,7 @@
         <h1 class="font-title-bold u-mb50">Weekly <span class="t-outline t-white">schedule</span></h1>
 
         <div class="calendar-container">
-            <Calendar :mode="'aside'" :weekDates="weekDates" :sessions="weekSessions"/>
+            <Calendar :mode="'full'" :weekDates="weekDates" :sessions="weekSessions"/>
         </div>
     </div>
 </template>
@@ -36,7 +36,5 @@ export default {
 </script>
 
 <style lang="scss">
-.calendar-container {
-    width: 380px;
-}
+
 </style>

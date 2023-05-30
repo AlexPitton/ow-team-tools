@@ -1,13 +1,12 @@
 <template>
     <div class="map-custom-select">
         <div class="selected" @click="open = !open">
-            <div v-if="selected">
-                <img :src="`${$axios.defaults.baseURL}${selected.attributes.miniature.data.attributes.url}`">
-                <span>{{ selected.name }}</span>
-            </div>
-            <div v-else>
-                <div class="img-placeholder"></div>
-                <span>No map selected</span>
+            <div class="u-relative">
+                <img v-if="selected" :src="`${$axios.defaults.baseURL}${selected.attributes.miniature.data.attributes.url}`">
+                <div v-else class="img-placeholder"></div>
+
+                <span v-if="selected" class="selected-name">{{ selected.attributes.name }}</span>
+                <span v-else class="selected-name">None</span>
             </div>
         </div>
         <div class="items-container" :class="{open : open}">
@@ -50,28 +49,38 @@
 
     .map-custom-select {
         position: relative;
-        margin: 15px 0;
         cursor: pointer;
 
         .selected {
             font-weight: 600;
+            display: inline-block;
+            border-radius: 3px;
+            overflow: hidden;
 
-            div {
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                padding-left: 10px;
+
+            .selected-name {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                display: block;
+                padding: 5px 0;
+                text-align: center;
+                //text-transform: uppercase;
+                font-size: 14px;
+                background: rgb(12,90,77);
+                background: linear-gradient(180deg, rgba(12,90,77,0) 0%, rgba(0,0,0,0.5032606792717087) 100%);
+            }
+
+            img, .img-placeholder {
+                width: 100px;
+                background-color: rgba(255,255,255, 0.3);
+
+                @include aspect-ratio(100,63)
             }
         }
 
-        img, .img-placeholder {
-            width: 100px;
-            border-radius: 3px;
-            margin-right: 10px;
-            background-color: $color-concrete;
 
-            @include aspect-ratio(100,63)
-        }
 
         .items-container {
             position: absolute;
@@ -83,12 +92,21 @@
             overflow: hidden;
             border-radius: 8px;
 
-            background-color: $color-concrete;
+            background-color: $c-primary-light;
 
             transition: all 350ms $authenticMotion;
 
+            img {
+                width: 100px;
+                border-radius: 3px;
+                margin-right: 10px;
+                background-color: $color-concrete;
+
+                @include aspect-ratio(100,63)
+            }
+
             &.open {
-                height: 300px;
+                height: 400px;
             }
         }
 
@@ -105,7 +123,7 @@
             margin-bottom: 8px;
 
             &:hover {
-                background-color: rgba(255,255,255, 0.8);
+                background-color: $c-primary-lighter;
             }
 
             img, .img-placeholder {

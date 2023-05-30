@@ -1,3 +1,35 @@
+<script>
+export default {
+    name: 'HeroSelected',
+    props: {
+        hero: Object,
+        isDisabled: Boolean,
+    },
+    data() {
+        return {
+            isFlexModeActive: false
+        }
+    },
+    computed: {
+        heroPortrait: function () {
+            return this.hero.attributes.portrait.data.attributes.url
+        }
+    },
+    methods: {
+        removeHeroClickHandler() {
+            this.$store.commit('removeHeroFromSelection', this.hero)
+        },
+        activeFlexMode() {
+            this.$emit('activeFlexMode', this.hero)
+            this.isFlexModeActive = !this.isFlexModeActive
+        },
+        deactivateFlexMode() {
+            this.isFlexModeActive = false
+        }
+    }
+}
+</script>
+
 <template>
     <div class="hero" :class="{'flex-mode-active' : isFlexModeActive}">
         <div class="portrait-container">
@@ -21,52 +53,20 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: 'HeroSelected',
-        props: {
-            hero: Object,
-            isDisabled: Boolean,
-        },
-        data() {
-            return {
-                isFlexModeActive: false
-            }
-        },
-        computed: {
-            heroPortrait: function () {
-                return this.hero.attributes.portrait.data.attributes.url
-            }
-        },
-        methods: {
-            removeHeroClickHandler() {
-                this.$store.commit('removeHeroFromSelection', this.hero)
-            },
-            activeFlexMode() {
-                this.$emit('activeFlexMode', this.hero)
-                this.isFlexModeActive = !this.isFlexModeActive
-            },
-            deactivateFlexMode() {
-                this.isFlexModeActive = false
-            }
-        }
-    }
-</script>
-
 <style lang="scss" scoped>
     .hero {
         position: relative;
-        transition: all 80ms $authenticMotion;
+        transition: opacity 80ms $authenticMotion, transform 80ms $authenticMotion;
         will-change: auto;
 
         @keyframes hero-in {
             from {
                 opacity: 0;
-                transform: translateY(15px);
+                transform: scale(0.8);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1);
             }
         }
         @keyframes flex-hero-in {
@@ -94,12 +94,12 @@
             position: relative;
             border-radius: 3px;
             overflow: hidden;
-            background-color: #dadada;
+            background-color: $c-primary-lighter;
 
             img {
                 opacity: 0;
-                background-color: #dadada!important;
                 animation: hero-in 650ms $authenticMotion 200ms forwards;
+                background-color: transparent;
             }
 
             &::after {
